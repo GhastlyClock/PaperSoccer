@@ -26,7 +26,6 @@ public class Okno extends JFrame implements ActionListener {
 		this.setTitle("Paper Soccer");
 		this.setLayout(new GridBagLayout());
 		platno = new Platno((7+2-1)*60, (11+2-2)*60);
-		//this.add(platno);
 		
 		igralec1 = new Igralec(1);
 		igralec2 = new Igralec(2);
@@ -132,7 +131,6 @@ public class Okno extends JFrame implements ActionListener {
 		}
 		else if (source == menuKoncaj) {
 			System.exit(0);
-			//dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 		}
 		else if (source == menuClovekClovek) {
 			System.out.println("CC DELA");

@@ -10,10 +10,10 @@ public class Povezava {
 	
 	public Color barva;
 	
-	public Povezava(Tocka tocka1, Tocka tocka2) {
+	public Povezava(Tocka tocka1, Tocka tocka2, Color barva) {
 		this.tocka1 = tocka1;
 		this.tocka2 = tocka2;
-		barva = Color.BLACK;
+		this.barva = barva;
 	}
 	
 }

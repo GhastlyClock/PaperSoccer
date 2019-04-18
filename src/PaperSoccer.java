@@ -1,6 +1,6 @@
 import gui.Okno;
 
-public class Igra {
+public class PaperSoccer {
 
 	public static void main(String[] args) {
 		System.out.println("Paper soccer game!!!");

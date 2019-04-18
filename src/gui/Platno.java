@@ -22,7 +22,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	Set<Povezava> poteze;
 	Set<Povezava> trenutnaPoteza;
 	
-	Color barvaTock, barvaMoznihTock, barvaOzadja, barvaTrenutneTocke;
+	Color barvaTock, barvaMoznihTock, barvaOzadja, barvaCrt, barvaTrenutneTocke;
 	Color barvaPotencialnePoteze;
 	
 	double polmer;
@@ -60,9 +60,9 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		odigraneTocke.add(trenutnaTocka);
 		
 		mozneTocke = new HashSet<Tocka>();
-		for (Vector<Integer> v : trenutnaTocka.mozniPremiki) {
+		for (int[] premik : trenutnaTocka.veljavnePoteze) {
 			try {
-				mozneTocke.add(vseTocke[v.get(0)][v.get(1)]);
+				mozneTocke.add(vseTocke[trenutnaTocka.x + premik[0]][trenutnaTocka.y + premik[1]]);
 			}
 			catch (Exception e) {
 			}
@@ -74,12 +74,12 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		barvaTock = Color.GRAY;
 		barvaMoznihTock = Color.YELLOW;
 		barvaOzadja = Color.WHITE;
-		barvaTrenutneTocke = Color.BLUE;
+		barvaCrt = Color.BLACK;
+		barvaTrenutneTocke = Color.CYAN;
 		barvaPotencialnePoteze = Color.MAGENTA;
 		
 		polmer = 10;
 		debelinaPovezave = 2;
-		
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -96,11 +96,13 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 		
+		this.setBackground(barvaOzadja);
+		
 		g2.setStroke(new BasicStroke(2));
 		
-		g.setColor(Color.BLACK);
-		int m = 70;
-		int n = 35 + m;
+		g.setColor(barvaCrt);
+		int m = 60;
+		int n = m/2 + m;
 		g.drawLine(m, n, sirina - m, n);
 		g.drawLine(m, n, m, visina - n);
 		g.drawLine(m, visina - n, sirina - m, visina - n);
@@ -118,11 +120,11 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		
 		g.drawOval(sirina/2 - n/2, visina/2 - n/2, n, n);
 		
-		g.setColor(Color.WHITE);
+		g.setColor(barvaOzadja);
 		g.drawLine(3*m, n, 5*m, n);
 		g.drawLine(3*m, visina - n, 5*m, visina - n);
 		
-		g.setColor(Color.BLACK);
+		g.setColor(barvaCrt);
 		g2.setStroke(new BasicStroke(1));
 		g.drawLine(3*m, n, 5*m, n);
 		g.drawLine(3*m, visina - n, 5*m, visina - n);
@@ -137,7 +139,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 			int i2 = t2.x;
 			int j2 = t2.y;
 			Color barva = p.barva;
-			if (barva != Color.BLACK) {
+			if (barva != null) {
 				g.setColor(barva);
 				g.drawLine(m + m*i1, n - m + m*j1, m + m*i2, n - m + m*j2);
 			}
@@ -157,6 +159,20 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 				}
+				else if (t == trenutnaTocka) {
+					g.setColor(barvaTrenutneTocke);
+					int a = t.x;
+					int b = t.y;
+					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
+					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
+				}
+				else if (t == trenutnaTocka) {
+					g.setColor(barvaTrenutneTocke);
+					int a = t.x;
+					int b = t.y;
+					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
+					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
+				}
 				else {
 					g.setColor(barvaTock);
 					int a = t.x;
@@ -164,15 +180,11 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 				}
-				if (t == trenutnaTocka) {
-					g.setColor(barvaTrenutneTocke);
-					int a = t.x;
-					int b = t.y;
-					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
-					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
-				}
+				
 			}
 		}
+		
+		
 		
 		
 	}
@@ -189,8 +201,15 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
+		premikX = e.getX();
+		premikY = e.getY();
 		
+		for (Tocka[] tocke : vseTocke) {
+			for (Tocka t : tocke) {
+				(if)
+				
+			}
+		}
 	}
 
 	@Override

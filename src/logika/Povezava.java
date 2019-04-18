@@ -4,9 +4,7 @@ import java.awt.*;
 
 public class Povezava {
 	
-	public Tocka tocka1;
-
-	public Tocka tocka2;
+	public Tocka tocka1, tocka2;
 	
 	public Color barva;
 	

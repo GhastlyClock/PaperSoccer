@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class Okno extends JFrame {
 	
 	Platno platno;

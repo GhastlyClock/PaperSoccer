@@ -60,13 +60,13 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		odigraneTocke.add(trenutnaTocka);
 		
 		mozneTocke = new HashSet<Tocka>();
-//		for (int[] v : trenutnaTocka.mozniPremiki) {
-//			try {
-//				mozneTocke.add(vseTocke[v.get(0)][v.get(1)]);
-//			}
-//			catch (Exception e) {
-//			}
-//		}
+		for (int[] premik : trenutnaTocka.veljavnePoteze) {
+			try {
+				mozneTocke.add(vseTocke[trenutnaTocka.x + premik[0]][trenutnaTocka.y + premik[1]]);
+			}
+			catch (Exception e) {
+			}
+		}
 		
 		poteze = new HashSet<Povezava>();
 		trenutnaPoteza = new HashSet<Povezava>();
@@ -159,6 +159,20 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 				}
+				else if (t == trenutnaTocka) {
+					g.setColor(barvaTrenutneTocke);
+					int a = t.x;
+					int b = t.y;
+					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
+					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
+				}
+				else if (t == trenutnaTocka) {
+					g.setColor(barvaTrenutneTocke);
+					int a = t.x;
+					int b = t.y;
+					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
+					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
+				}
 				else {
 					g.setColor(barvaTock);
 					int a = t.x;
@@ -166,15 +180,11 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 				}
-				if (t == trenutnaTocka) {
-					g.setColor(barvaTrenutneTocke);
-					int a = t.x;
-					int b = t.y;
-					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
-					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
-				}
+				
 			}
 		}
+		
+		
 		
 		
 	}
@@ -191,8 +201,15 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
+		premikX = e.getX();
+		premikY = e.getY();
 		
+		for (Tocka[] tocke : vseTocke) {
+			for (Tocka t : tocke) {
+				(if)
+				
+			}
+		}
 	}
 
 	@Override

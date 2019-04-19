@@ -5,13 +5,14 @@ import java.util.*;
 public class Tocka {
 	
 	// Dogovor: y predstavlja vrstico, x predstavlja stolpec
-	int x, y;
+	public int x;
+	public int y;
 	public static final Set<int[]> mozniPremiki;
 	public Set<int[]> veljavnePoteze;
 	
 	static {
 		
-		// Ustvarim množico vseh možnih premikov, katero bomo uporabljali pri vsaki potezi
+		// Ustvarim mnoï¿½ico vseh moï¿½nih premikov, katero bomo uporabljali pri vsaki potezi
 		mozniPremiki = new HashSet<>();
 		for (int i = -1; i <= 1; ++i) {
 			for (int j = -1; j <= 1; ++j) {
@@ -24,7 +25,7 @@ public class Tocka {
 	}
 	
 	public Tocka(int x, int y) {
-		// Vsaki tocki bomo morali podati položaj, ki bo enolicno dolocal tocko
+		// Vsaki tocki bomo morali podati poloï¿½aj, ki bo enolicno dolocal tocko
 		this.x = x;
 		this.y = y;
 	}

@@ -4,14 +4,14 @@ import java.util.*;
 
 public class Tocka {
 	
-	// Dogovor: y predstavlja vrstico, x predstavlja stolpec
-	int x, y;
+	// Dogovor: v - vrstica, s - stolpec
+	int v, s;
 	public static final Set<int[]> mozniPremiki;
-	public Set<int[]> veljavnePoteze;
+	Set<int[]> veljavnePoteze;
 	
 	static {
 		
-		// Ustvarim množico vseh možnih premikov, katero bomo uporabljali pri vsaki potezi
+		// Ustvarim mnozico vseh moznih premikov, katero bomo uporabljali pri vsaki potezi
 		mozniPremiki = new HashSet<>();
 		for (int i = -1; i <= 1; ++i) {
 			for (int j = -1; j <= 1; ++j) {
@@ -24,57 +24,46 @@ public class Tocka {
 	}
 	
 	public Tocka(int x, int y) {
-		// Vsaki tocki bomo morali podati položaj, ki bo enolicno dolocal tocko
-		this.x = x;
-		this.y = y;
+		// Vsaki tocki bomo morali podati polozaj, ki bo enolicno dolocal tocko
+		v = x;
+		s = y;
 	}
 	
-	public void veljavnePoteze (int stStolpcev, int stVrstic) {		
-		// Pogledamo moznosti za vse robne tocke
-		// Tocka je robna kadar velja en od naslednjih pogojev
-		// Torej premik je lahko samo v polje
+	public void veljavnePoteze (int stStolpcev, int stVrstic) {
+		// Sredina nam povej, v katerem stolpcu se nahaja gol
 		int sredina = stStolpcev/2;
 		
-		// Posebej pogledamo za tocke izven igrisca oziroma v golu
-		if (y == -1 && x == sredina) {
-			for (int i = -1; i <= 1; ++i) {
-				int[] v = {i, 1};
-				mozniPremiki.add(v);
-			}
-			return;
-		} else if (y == stVrstic && x == sredina) {
-			for (int i = -1; i <= 1; ++i) {
-				int[] v = {i, -1};
-				mozniPremiki.add(v);
-			}
-			return;
-		} else if (y == stVrstic || y == -1) {
-			return;
-		}
+		// Posebej pogledamo za tocke izven igrisca oziroma v golu		
+		// Ce tocka ni v igralnem polju, potem nima veljavnih potez
+		if (v == 0 || v == stStolpcev+1) return;
 	
 		// Da preverim ali je poteza pristala v polju brez roba ali v golu
 		Set<int[]> poljeBrezRobaZGolom = new HashSet<int[]>();
-		int[] gol1 = {-1, sredina};
-		int[] gol2 = {stVrstic, sredina};
+		int[] gol1 = {0, sredina};
+		int[] gol2 = {stVrstic+1, sredina};
 		poljeBrezRobaZGolom.add(gol1);
 		poljeBrezRobaZGolom.add(gol2);
-		for (int i = 1; i < (stStolpcev - 1); ++i) {
-			for (int j = 1; j < (stVrstic - 1); ++j) {
+		for (int i = 2; i < stVrstic; ++i) {
+			// i = 1 je zgornji rob, i = stVrstic spodnji rob
+			for (int j = 1; j < stStolpcev-1; ++j) {
+				// j = 0 levi rob, i = stStolpcev-1 desni rob
 				int[] polje = {i, j};
 				poljeBrezRobaZGolom.add(polje);
 			}
 		}
 		
-		if (x == 0 || x == (stStolpcev - 1) || y == 0 || y == (stVrstic - 1)) {
+		if (v == 1 || v == stVrstic || s == 0 || s == stStolpcev-1) {
+			// Tocke na robu
 			for (int[] premik : mozniPremiki) {
-				int[] polje = {x + premik[0], y + premik[1]};
+				int[] polje = {v + premik[0], s + premik[1]};
+				// Ce bil premik v polje ali v gol potem je premik veljaven
 				if (poljeBrezRobaZGolom.contains(polje)) {
 					veljavnePoteze.add(premik);
 				}
 			}
 		} else {
 			// Drugace je tocka v polju
-			// Ce je tocka v polju so mozne poteze ravno vse
+			// Ce je tocka v polju so mozne poteze vse
 			for (int[] premik : mozniPremiki) {
 				veljavnePoteze.add(premik);
 			}

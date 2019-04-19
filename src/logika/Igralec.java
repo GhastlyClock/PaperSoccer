@@ -1,13 +1,10 @@
 package logika;
 
-import java.awt.Color;
-
-public class Igralec {
+public enum Igralec {
+	A, B;
 	
-	public Color barva;
-	
-	public Igralec(int i) {
-		if (i == 1) barva = Color.BLUE;
-		else barva = Color.RED;
+	public Igralec nasprotnik() {
+		return (this == A ? B : A);
 	}
+
 }

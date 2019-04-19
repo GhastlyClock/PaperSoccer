@@ -12,7 +12,7 @@ public class Okno extends JFrame implements ActionListener {
 	
 	Platno platno;
 	
-	Igralec igralec1, igralec2;
+	Color barvaIgralec1, barvaIgralec2;
 	
 	private JMenuItem menuClovekClovek, menuClovekRacunalnik;
 	private JMenuItem menuLahko, menuSrednje, menuTezko;
@@ -27,29 +27,29 @@ public class Okno extends JFrame implements ActionListener {
 		this.setLayout(new GridBagLayout());
 		platno = new Platno((7+2-1)*60, (11+2-2)*60);
 		
-		igralec1 = new Igralec(1);
-		igralec2 = new Igralec(2);
+		barvaIgralec1 = Color.BLACK;
+		barvaIgralec2 = Color.RED;
 		
 		JMenuBar menubar = new JMenuBar();
 		
 		JMenu menuIgra = new JMenu("Igra");
 		JMenu menuNastavitve = new JMenu("Nastavitve");
 		
-		menuClovekClovek = new JMenuItem("Človek proti človeku ...");
-		menuClovekRacunalnik = new JMenuItem("Človek proti računalniku ...");
+		menuClovekClovek = new JMenuItem("Clovek proti cloveku ...");
+		menuClovekRacunalnik = new JMenuItem("Clovek proti racunalniku ...");
 		
-		menuLahko = new JMenuItem("Lahka težavnost ...");
-		menuSrednje = new JMenuItem("Srednja težavnost ...");
-		menuTezko = new JMenuItem("Težka težavnost ...");
+		menuLahko = new JMenuItem("Lahka tezavnost ...");
+		menuSrednje = new JMenuItem("Srednja tezavnost ...");
+		menuTezko = new JMenuItem("Tezka tezavnost ...");
 		
 		menuOdpri = new JMenuItem("Odpri igro ...");
 		menuShrani = new JMenuItem("Shrani igro ...");			
-		menuKoncaj = new JMenuItem("Končaj ...");
+		menuKoncaj = new JMenuItem("Koncaj ...");
 		
 		menuBarvaIgralca1 = new JMenuItem("Barva igralca 1 ...");
 		menuBarvaIgralca2 = new JMenuItem("Barva igralca 2 ...");
 		menuBarvaOzadja = new JMenuItem("Barva ozadja ...");
-		menuBarvaCrt = new JMenuItem("Barva črt igrišča ...");
+		menuBarvaCrt = new JMenuItem("Barva crt igrisca ...");
 		
 		menuIgra.add(menuClovekClovek);
 		menuIgra.add(menuClovekRacunalnik);
@@ -97,7 +97,7 @@ public class Okno extends JFrame implements ActionListener {
 		polje_layout.weighty = 1.0;
 		getContentPane().add(platno, polje_layout);
 		
-		// statusna vrstica za sporoÄila
+		// statusna vrstica za sporocila
 		status = new JLabel();
 		status.setFont(new Font(status.getFont().getName(),
 							    status.getFont().getStyle(),
@@ -151,17 +151,17 @@ public class Okno extends JFrame implements ActionListener {
 			System.out.println(Integer.toString(globina));
 		}
 		else if (source == menuBarvaIgralca1) {
-			Color barva = JColorChooser.showDialog(this, "Barva igralca 1", igralec1.barva);
+			Color barva = JColorChooser.showDialog(this, "Barva igralca 1", barvaIgralec1);
 			if (barva != null) {
-				igralec1.barva = barva;
+				barvaIgralec1 = barva;
 				platno.repaint();
 				System.out.println("Platno repainted");
 			}
 		}
 		else if (source == menuBarvaIgralca2) {
-			Color barva = JColorChooser.showDialog(this, "Barva igralca 2", igralec2.barva);
+			Color barva = JColorChooser.showDialog(this, "Barva igralca 2", barvaIgralec2);
 			if (barva != null) {
-				igralec2.barva = barva;
+				barvaIgralec2 = barva;
 				platno.repaint();
 				System.out.println("Platno repainted");
 			}
@@ -175,7 +175,7 @@ public class Okno extends JFrame implements ActionListener {
 			}
 		}
 		else if (source == menuBarvaCrt) {
-			Color barva = JColorChooser.showDialog(this, "Barva črt igrišča", platno.barvaCrt);
+			Color barva = JColorChooser.showDialog(this, "Barva crt igrisca", platno.barvaCrt);
 			if (barva != null) {
 				platno.barvaCrt = barva;
 				platno.repaint();

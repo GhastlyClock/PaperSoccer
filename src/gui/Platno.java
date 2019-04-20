@@ -12,12 +12,12 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	
 	int sirina, visina;
 	
-	Tocka trenutnaTocka;
+	Polje trenutnaTocka;
 	
-	Tocka[][] vseTocke;
-	Set<Tocka> mozneTocke;
+	Polje[][] vseTocke;
+	Set<Polje> mozneTocke;
 	
-	Set<Tocka> odigraneTocke;
+	Set<Polje> odigraneTocke;
 	
 	Set<Povezava> poteze;
 	Set<Povezava> trenutnaPoteza;
@@ -26,7 +26,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	Color barvaPotencialnePoteze;
 	
 	private static boolean potencialnaPoteza = false;
-	private static Tocka naslednjaPoteza = null;
+	private static Polje naslednjaPoteza = null;
 	
 	double polmer;
 	float debelinaPovezave;
@@ -38,7 +38,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		this.sirina = sirina;
 		this.visina = visina;
 		
-		vseTocke = new Tocka[11][7];
+		vseTocke = new Polje[11][7];
 		for(int i = 0; i < vseTocke.length; i++){
 		    for(int j = 0; j < vseTocke[i].length; j++){
 		       vseTocke[i][j] = null;
@@ -47,11 +47,11 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		for (int i=0; i<=10; i++) {
 			for (int j=0; j<7; j++) {
 				if (i==0 || i==10) {
-					Tocka tocka = new Tocka(i, 3);
+					Polje tocka = new Polje(i, 3);
 					vseTocke[i][3] = tocka;
 				}
 				else {
-					Tocka tocka = new Tocka(i, j);
+					Polje tocka = new Polje(i, j);
 					vseTocke[i][j] = tocka;
 				}
 			}
@@ -59,9 +59,9 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		
 		trenutnaTocka = vseTocke[5][3];
 		
-		odigraneTocke = new HashSet<Tocka>();
+		odigraneTocke = new HashSet<Polje>();
 		
-		mozneTocke = new HashSet<Tocka>();
+		mozneTocke = new HashSet<Polje>();
 		mozneTocke.add(vseTocke[6][3]);
 		mozneTocke.add(vseTocke[4][3]);
 		mozneTocke.add(vseTocke[5][4]);
@@ -142,12 +142,12 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		
 		g2.setStroke(new BasicStroke(debelinaPovezave));
 		for (Povezava p : poteze) {
-			Tocka t1 = p.tocka1;
-			Tocka t2 = p.tocka2;
-			int i1 = t1.y;
-			int j1 = t1.x;
-			int i2 = t2.y;
-			int j2 = t2.x;
+			Polje t1 = p.tocka1;
+			Polje t2 = p.tocka2;
+			int i1 = t1.getY();
+			int j1 = t1.getX();
+			int i2 = t2.getY();
+			int j2 = t2.getX();
 			Color barva = p.barva;
 			if (barva != null) {
 				g.setColor(barva);
@@ -156,10 +156,10 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		}
 		
 		if (potencialnaPoteza == true) {
-			int i1 = trenutnaTocka.y;
-			int j1 = trenutnaTocka.x;
-			int i2 = naslednjaPoteza.y;
-			int j2 = naslednjaPoteza.x;
+			int i1 = trenutnaTocka.getY();
+			int j1 = trenutnaTocka.getX();
+			int i2 = naslednjaPoteza.getY();
+			int j2 = naslednjaPoteza.getX();
 			g2.setStroke(new BasicStroke(debelinaPovezave));
 			g.setColor(barvaPotencialnePoteze);
 			g.drawLine(m + m*i1, n - m + m*j1, m + m*i2, n - m + m*j2);
@@ -169,34 +169,34 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		g.setColor(Color.BLACK);
 		int r = round(polmer);
 		
-		for (Tocka[] tocke : vseTocke) {
-			for (Tocka t : tocke) {
+		for (Polje[] tocke : vseTocke) {
+			for (Polje t : tocke) {
 				if (t == null) ;
 				else if (odigraneTocke.contains(t)) {
 					g.setColor(Color.BLACK);
-					int a = t.x;
-					int b = t.y;
+					int a = t.getX();
+					int b = t.getY();
 					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 				}
 				else if (mozneTocke.contains(t)) {
 					g.setColor(Color.YELLOW);
-					int a = t.x;
-					int b = t.y;
+					int a = t.getX();
+					int b = t.getY();
 					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 				}
 				else if (t == trenutnaTocka) {
 					g.setColor(barvaTrenutneTocke);
-					int a = t.x;
-					int b = t.y;
+					int a = t.getX();
+					int b = t.getY();
 					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 				}
 				else {
 					g.setColor(barvaTock);
-					int a = t.x;
-					int b = t.y;
+					int a = t.getX();
+					int b = t.getY();
 					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
 				}
@@ -222,13 +222,13 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		premikX = e.getX();
 		premikY = e.getY();
 		System.out.println("" + premikX + ", " + premikY);
-		Tocka najblizja = null;
+		Polje najblizja = null;
 		double razdalja = Double.POSITIVE_INFINITY;
-		for (Tocka t : mozneTocke) {
+		for (Polje t : mozneTocke) {
 				int m = 60;
 				int n = m/2 + m;
-				int i = m + m*t.y;
-				int j = n - m + m*t.x;
+				int i = m + m*t.getY();
+				int j = n - m + m*t.getX();
 				double r = Math.sqrt(Math.pow(premikX - i, 2) + Math.pow(premikY - j, 2));
 				if (r < razdalja) {
 					razdalja = r;
@@ -252,13 +252,13 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	public void mouseClicked(MouseEvent e) {
 		klikX = e.getX();
 		klikY = e.getY();
-		Tocka najblizja = null;
+		Polje najblizja = null;
 		double razdalja = Double.POSITIVE_INFINITY;
-		for (Tocka t : mozneTocke) {
+		for (Polje t : mozneTocke) {
 				int m = 60;
 				int n = m/2 + m;
-				int i = m + m*t.y;
-				int j = n - m + m*t.x;
+				int i = m + m*t.getY();
+				int j = n - m + m*t.getX();
 				double r = Math.sqrt(Math.pow(klikX - i, 2) + Math.pow(klikY - j, 2));
 				if (r < razdalja) {
 					razdalja = r;

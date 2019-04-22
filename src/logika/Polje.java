@@ -87,6 +87,7 @@ public class Polje {
 	}
 	
 	public void odstraniPotezo(int x, int y) {
+		// Odstranimo potezo iz veljavnih potez
 		for (Premik premik : veljavnePoteze) {
 			if (premik.getX() == x && premik.getY() == y) {
 				veljavnePoteze.remove(premik);

@@ -1,6 +1,5 @@
 package logika;
 
-import java.awt.Color;
 import java.util.*;
 
 public class Igra {
@@ -109,7 +108,7 @@ public class Igra {
 			
 			// Dodamo povezavo med tockama
 			// Barve so zaenkrat take kot so, lahko se spremeni
-			povezave.add(new Povezava(plosca[x1][y1], aktivnaTocka, naPotezi == Igralec.A ?  Color.RED : Color.BLACK));
+			povezave.add(new Povezava(plosca[x1][y1], aktivnaTocka, naPotezi));
 			if (aktivnaTocka.getY() == STOLPEC / 2 && (aktivnaTocka.getX() == 1 || aktivnaTocka.getX() == VRSTICA)) {
 				// Posebej moram obravnavam tocko pred golom
 				// Ce prvic pridemo na polje pred golom imamo natanko 5 moznih premikov

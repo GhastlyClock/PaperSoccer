@@ -152,11 +152,11 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 			int j1 = t1.getX();
 			int i2 = t2.getY();
 			int j2 = t2.getX();
-			Color barva = p.barva;
-			if (barva != null) {
-				g.setColor(barva);
-				g.drawLine(m + m*i1, n - m + m*j1, m + m*i2, n - m + m*j2);
-			}
+			//Color barva = p.barva;
+//			if (barva != null) {
+//				g.setColor(barva);
+//				g.drawLine(m + m*i1, n - m + m*j1, m + m*i2, n - m + m*j2);
+//			}
 		}
 		
 		if (potencialnaPoteza == true) {
@@ -271,7 +271,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		}
 		if (razdalja < polmer + 5) {
 			if (mozneTocke.contains(najblizja)) {
-				poteze.add(new Povezava(trenutnaTocka, najblizja, Color.BLUE));
+//				poteze.add(new Povezava(trenutnaTocka, najblizja, Color.BLUE));
 				odigraneTocke.add(trenutnaTocka);
 				trenutnaTocka = najblizja;
 				repaint();

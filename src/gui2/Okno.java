@@ -15,12 +15,10 @@ public class Okno extends JFrame implements ActionListener {
 	
 	Platno platno;
 	
-	Color barvaIgralec1, barvaIgralec2;
-	
 	private JMenuItem menuClovekClovek, menuClovekRacunalnik;
 	private JMenuItem menuLahko, menuSrednje, menuTezko;
 	private JMenuItem menuOdpri, menuShrani, menuKoncaj;
-	private JMenuItem menuBarvaIgralca1, menuBarvaIgralca2, menuBarvaOzadja, menuBarvaCrt;
+	private JMenuItem menuBarvaIgralcaA, menuBarvaIgralcaB, menuBarvaOzadja, menuBarvaCrt;
 	
 	private JLabel status;
 	
@@ -35,9 +33,6 @@ public class Okno extends JFrame implements ActionListener {
 		
 		platno = new Platno((Igra.STOLPEC+2-1)*60, (Igra.VRSTICA+2)*60, vodja);
 		
-		barvaIgralec1 = Color.BLACK;
-		barvaIgralec2 = Color.RED;
-		
 		JMenuBar menubar = new JMenuBar();
 		
 		JMenu menuIgra = new JMenu("Igra");
@@ -46,16 +41,16 @@ public class Okno extends JFrame implements ActionListener {
 		menuClovekClovek = new JMenuItem("Clovek proti cloveku ...");
 		menuClovekRacunalnik = new JMenuItem("Clovek proti racunalniku ...");
 		
-		menuLahko = new JMenuItem("Lahka tezavnost ...");
-		menuSrednje = new JMenuItem("Srednja tezavnost ...");
-		menuTezko = new JMenuItem("Tezka tezavnost ...");
+		menuLahko = new JMenuItem("Lahka tezavnost");
+		menuSrednje = new JMenuItem("Srednja tezavnost");
+		menuTezko = new JMenuItem("Tezka tezavnost");
 		
 		menuOdpri = new JMenuItem("Odpri igro ...");
 		menuShrani = new JMenuItem("Shrani igro ...");			
-		menuKoncaj = new JMenuItem("Koncaj ...");
+		menuKoncaj = new JMenuItem("Koncaj");
 		
-		menuBarvaIgralca1 = new JMenuItem("Barva igralca 1 ...");
-		menuBarvaIgralca2 = new JMenuItem("Barva igralca 2 ...");
+		menuBarvaIgralcaA = new JMenuItem("Barva igralca A ...");
+		menuBarvaIgralcaB = new JMenuItem("Barva igralca B ...");
 		menuBarvaOzadja = new JMenuItem("Barva ozadja ...");
 		menuBarvaCrt = new JMenuItem("Barva crt igrisca ...");
 		
@@ -70,8 +65,8 @@ public class Okno extends JFrame implements ActionListener {
 		menuNastavitve.add(menuSrednje);
 		menuNastavitve.add(menuTezko);
 		menuNastavitve.addSeparator();
-		menuNastavitve.add(menuBarvaIgralca1);
-		menuNastavitve.add(menuBarvaIgralca2);
+		menuNastavitve.add(menuBarvaIgralcaA);
+		menuNastavitve.add(menuBarvaIgralcaB);
 		menuNastavitve.addSeparator();
 		menuNastavitve.add(menuBarvaOzadja);
 		menuNastavitve.add(menuBarvaCrt);
@@ -92,8 +87,8 @@ public class Okno extends JFrame implements ActionListener {
 		menuShrani.addActionListener(this);			
 		menuKoncaj.addActionListener(this);
 		
-		menuBarvaIgralca1.addActionListener(this);
-		menuBarvaIgralca2.addActionListener(this);
+		menuBarvaIgralcaA.addActionListener(this);
+		menuBarvaIgralcaB.addActionListener(this);
 		menuBarvaOzadja.addActionListener(this);
 		menuBarvaCrt.addActionListener(this);
 		
@@ -110,7 +105,6 @@ public class Okno extends JFrame implements ActionListener {
 		status.setFont(new Font(status.getFont().getName(),
 							    status.getFont().getStyle(),
 							    20));
-		status.setText("Na potezi: Igralec 1");
 		GridBagConstraints status_layout = new GridBagConstraints();
 		status_layout.gridx = 0;
 		status_layout.gridy = 1;
@@ -158,18 +152,18 @@ public class Okno extends JFrame implements ActionListener {
 			int globina = 5;
 			System.out.println(Integer.toString(globina));
 		}
-		else if (source == menuBarvaIgralca1) {
-			Color barva = JColorChooser.showDialog(this, "Barva igralca 1", barvaIgralec1);
+		else if (source == menuBarvaIgralcaA) {
+			Color barva = JColorChooser.showDialog(this, "Barva igralca A", platno.barvaIgralecA);
 			if (barva != null) {
-				barvaIgralec1 = barva;
+				platno.barvaIgralecA = barva;
 				platno.repaint();
 				System.out.println("Platno repainted");
 			}
 		}
-		else if (source == menuBarvaIgralca2) {
-			Color barva = JColorChooser.showDialog(this, "Barva igralca 2", barvaIgralec2);
+		else if (source == menuBarvaIgralcaB) {
+			Color barva = JColorChooser.showDialog(this, "Barva igralca B", platno.barvaIgralecB);
 			if (barva != null) {
-				barvaIgralec2 = barva;
+				platno.barvaIgralecB = barva;
 				platno.repaint();
 				System.out.println("Platno repainted");
 			}

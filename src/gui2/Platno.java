@@ -15,6 +15,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	
 	Color barvaTock, barvaMoznihTock, barvaOzadja, barvaTrenutneTocke, barvaCrt;
 	Color barvaPotencialnePoteze;
+	public Color barvaIgralecA, barvaIgralecB;
 	
 	private static boolean potencialnaPoteza = false;
 	private static Polje naslednjaPoteza = null;
@@ -33,10 +34,12 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 
 		barvaTock = Color.GRAY;
 		barvaMoznihTock = Color.YELLOW;
-		barvaOzadja = Color.WHITE;
-		barvaCrt = Color.BLACK;
+		barvaOzadja = new Color(0, 115, 30);
+		barvaCrt = Color.WHITE;
 		barvaTrenutneTocke = Color.CYAN;
 		barvaPotencialnePoteze = Color.MAGENTA;
+		barvaIgralecA = Color.RED;
+		barvaIgralecB = Color.BLACK;
 		
 		polmer = 10;
 		debelinaPovezave = 4;
@@ -101,7 +104,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 			int j1 = t1.getX();
 			int i2 = t2.getY();
 			int j2 = t2.getX();
-			Color barva = p.barva;
+			Color barva = p.igralec == Igralec.A ? barvaIgralecA : barvaIgralecB;
 			if (barva != null) {
 				g.setColor(barva);
 				g.drawLine(m + m*i1, n - m + m*j1, m + m*i2, n - m + m*j2);

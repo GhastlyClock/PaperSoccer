@@ -57,21 +57,25 @@ public class Polje {
 				if ((x1 > 0 && x1 < stVrstic + 1) || y1 == sredina) veljavnePoteze.add(premik);
 			}
 		}
-		else if (x == 1 || x == stVrstic || y == 0 || y == stStolpcev-1) {
-			// Tocke na robu
-			for (Premik premik : mozniPremiki) {
-				int prX = x + premik.getX();
-				int prY = y + premik.getY();
-				
-				boolean pogoj1 = prY == sredina && (prX == 0 || prX == stVrstic + 1);
-				boolean pogoj2 = (prX > 1 && prX < stVrstic) && (prY > 0 && prY < stStolpcev - 1);
-				// Gledamo še za tocko pred golom
-				boolean pogoj3 = prY == sredina && (prX == 1 || prX == stVrstic);
-				if (pogoj1 || pogoj2 || pogoj3) {
-					veljavnePoteze.add(premik);
-				}
+		else if (x == 1 || x == stVrstic) {
+			for (Premik p : mozniPremiki) {
+				int prY = y + p.getY();	
+				int prX = x + p.getX();
+				boolean pogoj1 = prX > 1 && prX < stVrstic;
+				boolean pogoj2 = prY == sredina && (prX == 0 || prX == stVrstic + 1 || prX == 1 || prX == stVrstic);
+				if (pogoj1 || pogoj2) veljavnePoteze.add(p);
 			}
-		} else {
+		}
+		else if (y == 0 || y == stStolpcev - 1) {
+			for (Premik p : mozniPremiki) {
+				int prY = y + p.getY();		
+				int prX = x + p.getX();
+				boolean pogoj1 = prY > 0 && prY < stStolpcev - 1;
+				boolean pogoj2 = prY == sredina && (prX == 0 || prX == stVrstic + 1 || prX == 1 || prX == stVrstic);
+				if (pogoj1 || pogoj2) veljavnePoteze.add(p);
+				}
+		}
+		else {
 
 			// Drugace je tocka v polju
 			// Ce je tocka v polju so mozne poteze vse

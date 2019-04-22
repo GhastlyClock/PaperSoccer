@@ -3,6 +3,8 @@ package logika;
 import java.util.*;
 
 import gui2.*;
+//import inteligenca.Minimax;
+//import inteligenca.OcenjenPremik;
 
 public class Vodja {
 	

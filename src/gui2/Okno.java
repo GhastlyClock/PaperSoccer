@@ -6,8 +6,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import logika.Igra;
-import logika.Igralec;
 import logika.Vodja;
+import logika.VrstaIgralca;
 
 
 @SuppressWarnings("serial")
@@ -117,7 +117,7 @@ public class Okno extends JFrame implements ActionListener {
 		status_layout.anchor = GridBagConstraints.CENTER;
 		getContentPane().add(status, status_layout);
 
-		vodja.novaIgra(Igralec.A);
+		vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.RACUNALNIK);
 	}
 
 	@Override
@@ -141,10 +141,10 @@ public class Okno extends JFrame implements ActionListener {
 			System.exit(0);
 		}
 		else if (source == menuClovekClovek) {
-			System.out.println("CC DELA");
+			vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.CLOVEK);
 		}
 		else if (source == menuClovekRacunalnik) {
-			vodja.novaIgra(Igralec.A);
+			vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.RACUNALNIK);
 		}
 		else if (source == menuLahko) {
 			int globina = 1;

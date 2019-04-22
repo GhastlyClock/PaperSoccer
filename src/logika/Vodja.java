@@ -15,7 +15,8 @@ public class Vodja {
 	public Igra igra;
 	
 	// Ali je clovek igralec A ali B?
-	private Igralec clovek;
+	private VrstaIgralca igralecA;
+	private VrstaIgralca igralecB;
 	
 	public boolean clovekNaVrsti;
 	
@@ -25,10 +26,11 @@ public class Vodja {
 		clovekNaVrsti = false;
 	}
 	
-	public void novaIgra(Igralec clovek) {
+	public void novaIgra(VrstaIgralca igralecA, VrstaIgralca igralecB) {
 		// Ustvarim novo igro
 		this.igra = new Igra();
-		this.clovek = clovek;
+		this.igralecA = igralecA;
+		this.igralecB = igralecB;
 		igramo();
 	}
 	
@@ -39,13 +41,18 @@ public class Vodja {
 		case ZMAGA_A:
 		case ZMAGA_B:
 			break;
-		case NA_POTEZI_A:
-		case NA_POTEZI_B:
-			if (igra.naPotezi == clovek) {
-				clovekNaVrsti = true;
-			} else {
+		case NA_POTEZI_A: 
+			if (igralecA == VrstaIgralca.CLOVEK) clovekNaVrsti = true;
+			else {
 				racunalnikovaPoteza();
 			}
+			break;
+		case NA_POTEZI_B:
+			if (igralecB == VrstaIgralca.CLOVEK) clovekNaVrsti = true;
+			else {
+				racunalnikovaPoteza();
+			}
+			break;
 		}
 	}
 	

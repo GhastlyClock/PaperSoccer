@@ -11,7 +11,7 @@ public class Igra {
 	private Polje[][] plosca;
 	
 	// Spremljanje potez
-	private Tocka aktivnaTocka;
+	AktivnaTocka aktivnaTocka;
 	
 	// Igralec, ki je trenutno na potezi.
 	public Igralec naPotezi;
@@ -33,7 +33,7 @@ public class Igra {
 		}
 		naPotezi = Igralec.A;
 		// Vrstic je VRSTICA+2 zato moramo paziti pri iskanju srediscne koordinate
-		aktivnaTocka = new Tocka(VRSTICA + 2, STOLPEC);
+		aktivnaTocka = new AktivnaTocka(VRSTICA + 2, STOLPEC);
 		povezave = new HashSet<>();
 	}
 	
@@ -59,22 +59,16 @@ public class Igra {
 		return plosca;
 	}
 	
-	
 	// Trenutno stanje igre
 	public Stanje stanje() {
 		// Preverimo ali je zoga v katerem golu
 		if (aktivnaTocka.getX() == 0 && aktivnaTocka.getY() == STOLPEC / 2) {
 			return Stanje.ZMAGA_A;
-		} else if (aktivnaTocka.getX() == VRSTICA + 1 && aktivnaTocka.getY() == STOLPEC / 2) {
+		} 
+		else if (aktivnaTocka.getX() == VRSTICA + 1 && aktivnaTocka.getY() == STOLPEC / 2) {
 			return Stanje.ZMAGA_B;
-		} else if (plosca[aktivnaTocka.getX()][aktivnaTocka.getY()].veljavnePoteze.size() == 7) {
-			// V tem primeru prides na polje, ki se ni bilo obiskano in ni na robu
-			// Zato je na vrsti nasprotnik
-			switch (naPotezi) {
-			case A : return Stanje.NA_POTEZI_A;
-			case B : return Stanje.NA_POTEZI_B;
-			}
-		} else if (plosca[aktivnaTocka.getX()][aktivnaTocka.getY()].veljavnePoteze.size() == 0) {
+		} 
+		else if (plosca[aktivnaTocka.getX()][aktivnaTocka.getY()].veljavnePoteze.size() == 0) {
 			// Ce pristanes na polju brez veljavnih potez izgubis
 			switch (naPotezi) {
 			case A : return Stanje.ZMAGA_B;
@@ -88,4 +82,33 @@ public class Igra {
 		}
 		return koncno;
 	}
+
+	public boolean odigraj(Premik p) {
+		int x1 = aktivnaTocka.getX();
+		int y1 = aktivnaTocka.getY();
+		if (plosca[x1][y1].veljavnePoteze.contains(p)) {
+			Premik nasprotni = p.nasprotniPremik();
+			plosca[x1][y1].odstraniPotezo(p.getX(), p.getY());
+			
+			// Premaknemo aktivno tocko
+			aktivnaTocka.x += p.getX();
+			aktivnaTocka.y += p.getY();
+
+			int x2 = aktivnaTocka.getX();
+			int y2 = aktivnaTocka.getY();
+			plosca[x2][y2].odstraniPotezo(nasprotni.getX(), nasprotni.getY());
+			if (plosca[x2][y2].veljavnePoteze.size() < 6 && 
+					!(y2 == STOLPEC / 2 && (x2 == 0 || x2 == VRSTICA))) {
+				// V tem primeru prides na polje, ki je ze bilo obiskano oziroma na rob
+				// Zato imas ponoven premik
+				return true;
+			}
+			naPotezi.nasprotnik();
+			return true;
+		} 
+		else {
+			return false;
+		}
+	}
+	
 }

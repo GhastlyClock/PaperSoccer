@@ -1,10 +1,10 @@
 package logika;
 
-public class Tocka {
+public class AktivnaTocka {
 	int x, y;
 	int sirinaPolja, visinaPolja;
 	
-	public Tocka(int steviloVrstic, int steviloStolpcev) {
+	public AktivnaTocka(int steviloVrstic, int steviloStolpcev) {
 		sirinaPolja = steviloVrstic;
 		visinaPolja = steviloStolpcev;
 		
@@ -27,6 +27,6 @@ public class Tocka {
 	
 	@Override
 	public String toString () {
-		return "Tocka (" + x + "," + y + ")";
+		return "Tocka [x=" + x + ", y=" + y + "]";
 	}
 }

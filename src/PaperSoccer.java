@@ -8,8 +8,8 @@ public class PaperSoccer {
 		for (Polje[] vrstica : igra.getPlosca()) {
 			for (Polje t : vrstica) {
 				System.out.println(t + " ima " + t.veljavnePoteze.size() + " premikov:");
-				for (int[] premik : t.veljavnePoteze) {
-					System.out.println("Premik = (" + premik[0] + "," + premik[1] + ")");
+				for (Premik premik : t.veljavnePoteze) {
+					System.out.println(premik);
 				}
 			}
 		}

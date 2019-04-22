@@ -6,8 +6,8 @@ public class Polje {
 	
 	// Dogovor: v - vrstica, s - stolpec
 	private int x, y;
-	public static final Set<int[]> mozniPremiki;
-	public Set<int[]> veljavnePoteze;
+	public static final Set<Premik> mozniPremiki;
+	public Set<Premik> veljavnePoteze;
 	
 	static {
 		
@@ -16,7 +16,7 @@ public class Polje {
 		for (int i = -1; i <= 1; ++i) {
 			for (int j = -1; j <= 1; ++j) {
 				if (i == 0 && j == 0) continue;
-				int[] v = {i, j};
+				Premik v = new Premik(i, j);
 				mozniPremiki.add(v);
 			}
 		}
@@ -31,7 +31,7 @@ public class Polje {
 	
 	@Override
 	public String toString() {
-		return "Polje (" + x + "," + y + ")";
+		return "Polje [x=" + x + ", y=" + y + "]";
 	}
 	
 	public int getX() {
@@ -50,16 +50,15 @@ public class Polje {
 		// Ce tocka ni v igralnem polju, potem nima veljavnih potez
 		if (x == 0 || x == stVrstic+1) return;
 		if (y == sredina && (x == 0 || x == stVrstic+1)) {
-			for (int[] premik : mozniPremiki) {
-				int[] v = {premik[0], premik[1]};
-				veljavnePoteze.add(v);
+			for (Premik premik : mozniPremiki) {
+				veljavnePoteze.add(premik);
 			}
 		}
 		else if (x == 1 || x == stVrstic || y == 0 || y == stStolpcev-1) {
 			// Tocke na robu
-			for (int[] premik : mozniPremiki) {
-				int prX = x + premik[0];
-				int prY = y + premik[1];
+			for (Premik premik : mozniPremiki) {
+				int prX = x + premik.getX();
+				int prY = y + premik.getY();
 				
 				boolean pogoj1 = prY == sredina && (prX == 0 || prX == stVrstic + 1);
 				boolean pogoj2 = (prX > 1 && prX < stVrstic) && (prY > 0 && prY < stStolpcev - 1);
@@ -73,23 +72,19 @@ public class Polje {
 
 			// Drugace je tocka v polju
 			// Ce je tocka v polju so mozne poteze vse
-			for (int[] premik : mozniPremiki) {
-				int[] v = {premik[0], premik[1]};
-				veljavnePoteze.add(v);
+			for (Premik premik : mozniPremiki) {
+				veljavnePoteze.add(premik);
 			}
 		}
 		return;
 	}
 	
 	public void odstraniPotezo(int x, int y) {
-		for (int[] premik : veljavnePoteze) {
-			if (premik[0] == x && premik[1] == y) {
+		for (Premik premik : veljavnePoteze) {
+			if (premik.getX() == x && premik.getY() == y) {
 				veljavnePoteze.remove(premik);
 				return;
 			}
 		}
-	}
-	
-	
-	
+	}	
 }

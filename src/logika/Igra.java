@@ -5,8 +5,8 @@ import java.util.*;
 
 public class Igra {
 	// Velikost igralne plosce je N x M.
-	public static final int STOLPEC = 7;
-	public static final int VRSTICA = 9;
+	public static final int STOLPEC = 9;
+	public static final int VRSTICA = 13;
 	
 	// Igralno polje
 	private Polje[][] plosca;

@@ -68,26 +68,29 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		g.drawLine(m, visina - n, sirina - m, visina - n);
 		g.drawLine(sirina - m, n, sirina - m, visina - n);
 		
-		g.drawLine(3*m, n - m, 3*m, n);
-		g.drawLine(5*m, n - m, 5*m, n);
-		g.drawLine(3*m, n - m, 5*m, n - m);
+		int k = (Igra.STOLPEC / 2);
+		int l = ((Igra.STOLPEC / 2) + 2);
 		
-		g.drawLine(3*m, visina - n + m, 3*m, visina - n);
-		g.drawLine(5*m, visina - n + m, 5*m, visina - n);
-		g.drawLine(3*m, visina - n + m, 5*m, visina - n + m);
+		g.drawLine(k*m, n - m, k*m, n);
+		g.drawLine(l*m, n - m, l*m, n);
+		g.drawLine(k*m, n - m, l*m, n - m);
+		
+		g.drawLine(k*m, visina - n + m, k*m, visina - n);
+		g.drawLine(l*m, visina - n + m, l*m, visina - n);
+		g.drawLine(k*m, visina - n + m, l*m, visina - n + m);
 		
 		g.drawLine(m, visina/2, sirina - m, visina/2);
 		
 		g.drawOval(sirina/2 - n/2, visina/2 - n/2, n, n);
 		
 		g.setColor(barvaOzadja);
-		g.drawLine(3*m, n, 5*m, n);
-		g.drawLine(3*m, visina - n, 5*m, visina - n);
+		g.drawLine(k*m, n, l*m, n);
+		g.drawLine(k*m, visina - n, l*m, visina - n);
 		
 		g.setColor(barvaCrt);
 		g2.setStroke(new BasicStroke(1));
-		g.drawLine(3*m, n, 5*m, n);
-		g.drawLine(3*m, visina - n, 5*m, visina - n);
+		g.drawLine(k*m, n, l*m, n);
+		g.drawLine(k*m, visina - n, l*m, visina - n);
 		
 		
 		g2.setStroke(new BasicStroke(debelinaPovezave));

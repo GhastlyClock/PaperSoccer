@@ -1,5 +1,6 @@
 package logika;
 
+import java.awt.Color;
 import java.util.*;
 
 public class Igra {
@@ -11,7 +12,7 @@ public class Igra {
 	private Polje[][] plosca;
 	
 	// Spremljanje potez
-	AktivnaTocka aktivnaTocka;
+	public Polje aktivnaTocka;
 	
 	// Igralec, ki je trenutno na potezi.
 	public Igralec naPotezi;
@@ -33,7 +34,7 @@ public class Igra {
 		}
 		naPotezi = Igralec.A;
 		// Vrstic je VRSTICA+2 zato moramo paziti pri iskanju srediscne koordinate
-		aktivnaTocka = new AktivnaTocka(VRSTICA + 2, STOLPEC);
+		aktivnaTocka = plosca[(VRSTICA + 1) / 2][STOLPEC / 2];
 		povezave = new HashSet<>();
 	}
 	
@@ -49,7 +50,7 @@ public class Igra {
 		naPotezi = igra.naPotezi;
 		
 		// Aktivno tocko postavimo v izhodisce
-		aktivnaTocka.reset();
+		aktivnaTocka = plosca[(VRSTICA + 1) / 2][STOLPEC / 2];
 		
 		//Zbrisati moramo vse povezave
 		povezave.clear();
@@ -57,6 +58,16 @@ public class Igra {
 	
 	public Polje[][] getPlosca() {
 		return plosca;
+	}
+	
+	public Set<Polje> sosednjaVeljavnaPolja() {
+		Set<Polje> sosedi = new HashSet<>();
+		int x = aktivnaTocka.getX();
+		int y = aktivnaTocka.getY();
+		for (Premik p : plosca[x][y].veljavnePoteze) {
+			sosedi.add(plosca[x + p.getX()][y + p.getY()]);
+		}
+		return sosedi;
 	}
 	
 	// Trenutno stanje igre
@@ -75,35 +86,43 @@ public class Igra {
 			case B : return Stanje.ZMAGA_A;
 			}
 		}
-		Stanje koncno = Stanje.NA_POTEZI_A;
-		switch (naPotezi) {
-		case A : koncno = Stanje.NA_POTEZI_A;
-		case B : koncno = Stanje.NA_POTEZI_B;
+		
+		if (naPotezi == Igralec.A) {
+			return Stanje.NA_POTEZI_A;
 		}
-		return koncno;
+		else {
+			return Stanje.NA_POTEZI_B;
+		}
 	}
 
 	public boolean odigraj(Premik p) {
 		int x1 = aktivnaTocka.getX();
 		int y1 = aktivnaTocka.getY();
-		if (plosca[x1][y1].veljavnePoteze.contains(p)) {
+		if (aktivnaTocka.veljavnePoteze.contains(p)) {
 			Premik nasprotni = p.nasprotniPremik();
-			plosca[x1][y1].odstraniPotezo(p.getX(), p.getY());
+			aktivnaTocka.odstraniPotezo(p.getX(), p.getY());
 			
 			// Premaknemo aktivno tocko
-			aktivnaTocka.x += p.getX();
-			aktivnaTocka.y += p.getY();
+			aktivnaTocka = plosca[aktivnaTocka.getX() + p.getX()][aktivnaTocka.getY() + p.getY()];
 
-			int x2 = aktivnaTocka.getX();
-			int y2 = aktivnaTocka.getY();
-			plosca[x2][y2].odstraniPotezo(nasprotni.getX(), nasprotni.getY());
-			if (plosca[x2][y2].veljavnePoteze.size() < 6 && 
-					!(y2 == STOLPEC / 2 && (x2 == 0 || x2 == VRSTICA))) {
+			aktivnaTocka.odstraniPotezo(nasprotni.getX(), nasprotni.getY());
+			
+			// Dodamo povezavo med tockama
+			// Barve so zaenkrat take kot so, lahko se spremeni
+			povezave.add(new Povezava(plosca[x1][y1], aktivnaTocka, naPotezi == Igralec.A ?  Color.RED : Color.BLACK));
+			if (aktivnaTocka.getY() == STOLPEC / 2 && (aktivnaTocka.getX() == 1 || aktivnaTocka.getX() == VRSTICA)) {
+				// Posebej moram obravnavam tocko pred golom
+				// Ce prvic pridemo na polje pred golom imamo natanko 5 moznih premikov
+				if (aktivnaTocka.veljavnePoteze.size() != 5) return true;
+				naPotezi = naPotezi.nasprotnik();
+				return true;
+			}
+			if (aktivnaTocka.veljavnePoteze.size() < 7) {
 				// V tem primeru prides na polje, ki je ze bilo obiskano oziroma na rob
 				// Zato imas ponoven premik
 				return true;
 			}
-			naPotezi.nasprotnik();
+			naPotezi = naPotezi.nasprotnik();
 			return true;
 		} 
 		else {

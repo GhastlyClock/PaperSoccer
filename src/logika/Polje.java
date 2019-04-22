@@ -49,9 +49,12 @@ public class Polje {
 		// Posebej pogledamo za tocke izven igrisca oziroma v golu		
 		// Ce tocka ni v igralnem polju, potem nima veljavnih potez
 		if (x == 0 || x == stVrstic+1) return;
-		if (y == sredina && (x == 0 || x == stVrstic+1)) {
+		if (y == sredina && (x == 1 || x == stVrstic)) {
+			// Tocka pred golom
 			for (Premik premik : mozniPremiki) {
-				veljavnePoteze.add(premik);
+				int x1 = x + premik.getX();
+				int y1 = y + premik.getY();
+				if ((x1 > 0 && x1 < stVrstic + 1) || y1 == sredina) veljavnePoteze.add(premik);
 			}
 		}
 		else if (x == 1 || x == stVrstic || y == 0 || y == stStolpcev-1) {

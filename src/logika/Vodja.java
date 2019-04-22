@@ -2,7 +2,7 @@ package logika;
 
 import java.util.*;
 
-import gui.Okno;
+import gui2.*;
 
 public class Vodja {
 	
@@ -33,7 +33,7 @@ public class Vodja {
 	}
 	
 	public void igramo() {
-		// Manjka del kode za osvezitev GUI!!!
+		okno.osveziGUI();
 		
 		switch (igra.stanje()) {
 		case ZMAGA_A:

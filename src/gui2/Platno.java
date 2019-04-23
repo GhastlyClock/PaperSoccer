@@ -14,8 +14,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	private Vodja vodja;
 	
 	Color barvaTock, barvaMoznihTock, barvaOzadja, barvaTrenutneTocke, barvaCrt;
-	Color barvaPotencialnePoteze;
-	public Color barvaIgralecA, barvaIgralecB;
+	Color barvaPotencialnePoteze, barvaIgralecA, barvaIgralecB; 
 	
 	private static boolean potencialnaPoteza = false;
 	private static Polje naslednjaPoteza = null;
@@ -158,12 +157,6 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	private static int round(double x) {
 		return (int)(x + 0.5);
 	}
-	
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
@@ -225,7 +218,13 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 			}
 		}
 	}
-
+	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub

@@ -24,15 +24,11 @@ public class Vodja {
 	public boolean clovekNaVrsti;
 	
 	// Globina minimaxa
-	public static int globinaMinimax;
+	public static int globinaMinimax = 3;
 	
 	public Vodja(Okno okno) {
 		this.okno = okno;
 		clovekNaVrsti = false;
-	}
-	
-	static {
-		globinaMinimax = 3;
 	}
 	
 	public void novaIgra(VrstaIgralca igralecA, VrstaIgralca igralecB) {

@@ -10,7 +10,6 @@ public class Polje {
 	public Set<Premik> veljavnePoteze;
 	
 	static {
-		
 		// Ustvarim mnozico vseh moznih premikov, katero bomo uporabljali pri vsaki potezi
 		mozniPremiki = new HashSet<>();
 		for (int i = -1; i <= 1; ++i) {

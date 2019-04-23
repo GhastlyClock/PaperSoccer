@@ -146,12 +146,15 @@ public class Okno extends JFrame implements ActionListener {
 		}
 		else if (source == menuLahko) {
 			Vodja.globinaMinimax = 1;
+			System.out.println("Nastavljena je lahka tezavnost.");
 		}
 		else if (source == menuSrednje) {
-			Vodja.globinaMinimax = 2;
+			Vodja.globinaMinimax = 3;
+			System.out.println("Nastavljena je srednja tezavnost.");
 		}
 		else if (source == menuTezko) {
-			Vodja.globinaMinimax = 3;
+			Vodja.globinaMinimax = 5;
+			System.out.println("Nastavljena je tezka tezavnost.");
 		}
 		else if (source == menuBarvaIgralcaA) {
 			Color barva = JColorChooser.showDialog(this, "Barva igralca A", platno.barvaIgralecA);

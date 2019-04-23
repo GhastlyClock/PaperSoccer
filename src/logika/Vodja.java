@@ -6,12 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import gui2.*;
-//import inteligenca.Minimax;
-//import inteligenca.OcenjenPremik;
+import inteligenca.Minimax;
+import inteligenca.OcenjenPremik;
 
 public class Vodja {
-	
-	private Random random;
 	
 	// Glavno okno
 	private Okno okno;
@@ -25,10 +23,16 @@ public class Vodja {
 	
 	public boolean clovekNaVrsti;
 	
+	// Globina minimaxa
+	public static int globinaMinimax;
+	
 	public Vodja(Okno okno) {
-		random = new Random();
 		this.okno = okno;
 		clovekNaVrsti = false;
+	}
+	
+	static {
+		globinaMinimax = 3;
 	}
 	
 	public void novaIgra(VrstaIgralca igralecA, VrstaIgralca igralecB) {
@@ -49,31 +53,21 @@ public class Vodja {
 		case NA_POTEZI_A: 
 			if (igralecA == VrstaIgralca.CLOVEK) clovekNaVrsti = true;
 			else {
-				racunalnikovaPoteza();
+				racunalnikovaPoteza(Igralec.A);
 			}
 			break;
 		case NA_POTEZI_B:
 			if (igralecB == VrstaIgralca.CLOVEK) clovekNaVrsti = true;
 			else {
-				racunalnikovaPoteza();
+				racunalnikovaPoteza(Igralec.B);
 			}
 			break;
 		}
 	}
 	
-	public void racunalnikovaPoteza() {
-		Polje p = igra.getPlosca()[igra.aktivnaTocka.getX()][igra.aktivnaTocka.getY()];
-		Set<Premik> mozniPremiki = p.veljavnePoteze;
-		int velikost = mozniPremiki.size();
-		int item = random.nextInt(velikost);
-		int i = 0;
-		Premik premik = null;
-		for(Premik obj : mozniPremiki)
-		{
-		    if (i == item)
-		        premik = obj;
-		    i++;
-		}
+	public void racunalnikovaPoteza(Igralec igralec) {
+		List<OcenjenPremik> ocenjeniPremiki = Minimax.oceniPremike (igra, globinaMinimax, igralec);
+		Premik premik = Minimax.maxPremik(ocenjeniPremiki);
 		igra.odigraj(premik);
 		igramo();
 	}
@@ -110,7 +104,6 @@ public class Vodja {
 	public static Igra preberi (String ime) {
 		try {
 			Igra igra = new Igra();
-			@SuppressWarnings("resource")
 			BufferedReader dat = new BufferedReader(new FileReader(ime));
 			int blok = 1;
 			while (dat.ready()) {
@@ -122,7 +115,7 @@ public class Vodja {
 					if (Igra.STOLPEC != Integer.parseInt(v[0]) || Igra.VRSTICA != Integer.parseInt(v[1])) {
 						System.out.println("Prišlo je do napake pri nalaganju!");
 						System.out.println("Zaganjam novo igro...");
-						return igra;
+						break;
 					}
 				}
 				else if (blok == 2) {

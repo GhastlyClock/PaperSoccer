@@ -116,7 +116,6 @@ public class Okno extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		Object source = e.getSource();
 		if (source == menuOdpri) {
 			JFileChooser chooser = new JFileChooser ();
@@ -146,16 +145,13 @@ public class Okno extends JFrame implements ActionListener {
 			vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.RACUNALNIK);
 		}
 		else if (source == menuLahko) {
-			int globina = 1;
-			System.out.println(Integer.toString(globina));
+			Vodja.globinaMinimax = 1;
 		}
 		else if (source == menuSrednje) {
-			int globina = 3;
-			System.out.println(Integer.toString(globina));
+			Vodja.globinaMinimax = 2;
 		}
 		else if (source == menuTezko) {
-			int globina = 5;
-			System.out.println(Integer.toString(globina));
+			Vodja.globinaMinimax = 3;
 		}
 		else if (source == menuBarvaIgralcaA) {
 			Color barva = JColorChooser.showDialog(this, "Barva igralca A", platno.barvaIgralecA);

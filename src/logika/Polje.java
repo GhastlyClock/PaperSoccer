@@ -101,4 +101,12 @@ public class Polje {
 			}
 		}
 	}	
+	
+	public Polje vrniKopijo() {
+		Polje p = new Polje(x, y);
+		for (Premik premik : veljavnePoteze) {
+			p.veljavnePoteze.add(premik);
+		}
+		return p;
+	}
 }

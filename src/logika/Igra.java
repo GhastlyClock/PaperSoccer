@@ -38,22 +38,22 @@ public class Igra {
 		povezave = new HashSet<>();
 	}
 	
-	// Nova kopija dane igre
+	// Nova kopija dane igre za minimax
 	public Igra(Igra igra) {
-		plosca = new Polje[STOLPEC][VRSTICA];
-		for (int i = 0; i <= VRSTICA+1; ++i) {
-			for (int j = 0; j <= STOLPEC; ++j) {
-				plosca[i][j].nastavitevVeljavnePoteze(STOLPEC, VRSTICA);
-				plosca[i][j] = igra.plosca[i][j];
+		plosca = new Polje[VRSTICA + 2][STOLPEC];
+		// Vrstici moramo dodati 2 zaradi golov
+		for (int i = 0; i <= VRSTICA + 1; ++i) {
+			for (int j = 0; j < STOLPEC; ++j) {
+				plosca[i][j] = igra.plosca[i][j].vrniKopijo();
 			}
 		}
 		naPotezi = igra.naPotezi;
-		
-		// Aktivno tocko postavimo v izhodisce
-		aktivnaTocka = plosca[(VRSTICA + 1) / 2][STOLPEC / 2];
-		
-		//Zbrisati moramo vse povezave
-		povezave.clear();
+		aktivnaTocka = plosca[igra.aktivnaTocka.getX()][igra.aktivnaTocka.getY()];
+		povezave = new HashSet<>();
+		for (Povezava p : igra.povezave) {
+			povezave.add(new Povezava(plosca[p.tocka1.getX()][p.tocka1.getY()], plosca[p.tocka2.getX()][p.tocka2.getY()], p.igralec));
+			
+		}
 	}
 	
 	public Polje[][] getPlosca() {

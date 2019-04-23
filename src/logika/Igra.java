@@ -85,7 +85,6 @@ public class Igra {
 			case B : return Stanje.ZMAGA_A;
 			}
 		}
-		
 		if (naPotezi == Igralec.A) {
 			return Stanje.NA_POTEZI_A;
 		}

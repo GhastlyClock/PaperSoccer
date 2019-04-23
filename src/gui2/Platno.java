@@ -214,9 +214,8 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 				}
 			}
 			if (razdalja < polmer + 5) {
-				// Minus, zato ker plosca obrnjeno simetricno kot platno
-				int premikX = - (vodja.igra.aktivnaTocka.getX() - najblizja.getX());
-				int premikY = - (vodja.igra.aktivnaTocka.getY() - najblizja.getY());
+				int premikX = najblizja.getX() - vodja.igra.aktivnaTocka.getX();
+				int premikY = najblizja.getY() - vodja.igra.aktivnaTocka.getY();
 				for (Premik p : vodja.igra.aktivnaTocka.veljavnePoteze) {
 					if (p.getX() == premikX && p.getY() == premikY) {
 						vodja.clovekovaPoteza(p);

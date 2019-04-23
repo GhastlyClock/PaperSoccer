@@ -116,19 +116,24 @@ public class Okno extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		Object source = e.getSource();
 		if (source == menuOdpri) {
 			JFileChooser chooser = new JFileChooser ();
 			int gumb = chooser.showOpenDialog(this);
 			if (gumb == JFileChooser.APPROVE_OPTION) {
-				
+				String ime = chooser.getSelectedFile().getPath();
+				Igra igra = Vodja.preberi(ime);
+				vodja.igra = igra;
+				vodja.igramo();
 			}
 		}
 		else if (source == menuShrani) {
 			JFileChooser chooser = new JFileChooser ();
 			int gumb = chooser.showOpenDialog(this);
 			if (gumb == JFileChooser.APPROVE_OPTION) {
-				
+				String ime = chooser.getSelectedFile().getPath();
+				vodja.shrani(ime);
 			}
 		}
 		else if (source == menuKoncaj) {

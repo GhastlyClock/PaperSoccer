@@ -37,7 +37,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		barvaOzadja = new Color(0, 115, 30);
 		barvaCrt = Color.WHITE;
 		barvaTrenutneTocke = Color.CYAN;
-		barvaPotencialnePoteze = Color.MAGENTA;
+		barvaPotencialnePoteze = new Color(220, 255, 180);
 		barvaIgralecA = Color.RED;
 		barvaIgralecB = Color.BLACK;
 		
@@ -131,7 +131,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 					continue;
 				}
 				else if (vodja.igra.sosednjaVeljavnaPolja().contains(t)) {
-					g.setColor(Color.YELLOW);
+					g.setColor(barvaMoznihTock);
 					int a = t.getX();
 					int b = t.getY();
 					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);

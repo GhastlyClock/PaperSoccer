@@ -3,7 +3,8 @@ package logika;
 import java.util.*;
 
 public class Igra {
-	// Velikost igralne plosce je N x M.
+	// Velikost igralne plosce je VRSTICA x STOLPEC.
+	// Opomba: igra deluje za STOLPEC >= 3 in VRSTICA >= 1
 	public static final int STOLPEC = 9;
 	public static final int VRSTICA = 13;
 	

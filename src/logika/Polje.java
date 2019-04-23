@@ -60,11 +60,16 @@ public class Polje {
 		else if (x == 1 || x == stVrstic) {
 			// Tocke na robu (zgoraj ali spodaj)
 			for (Premik p : mozniPremiki) {
-				int prY = y + p.getY();	
-				int prX = x + p.getX();
-				boolean pogoj1 = prX > 1 && prX < stVrstic;
-				boolean pogoj2 = prY == sredina && (prX == 0 || prX == stVrstic + 1 || prX == 1 || prX == stVrstic);
-				if (pogoj1 || pogoj2) veljavnePoteze.add(p);
+			int prY = y + p.getY();	
+			int prX = x + p.getX();
+			boolean pogoj1 = prX > 1 && prX < stVrstic;
+			boolean pogoj2 = prY == sredina && (prX == 0 || prX == stVrstic + 1 || prX == 1 || prX == stVrstic);
+			if (y == 0 || y == stStolpcev - 1) {
+				// Tocke v kotu
+				boolean pogoj3 = prY < stStolpcev - 1 && prY > 0;
+				if ((pogoj1 && pogoj3) || pogoj2) veljavnePoteze.add(p);
+			}
+			else if (pogoj1 || pogoj2) veljavnePoteze.add(p);
 			}
 		}
 		else if (y == 0 || y == stStolpcev - 1) {

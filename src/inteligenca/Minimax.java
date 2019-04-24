@@ -2,7 +2,6 @@ package inteligenca;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import logika.Igra;
 import logika.Igralec;
@@ -10,9 +9,6 @@ import logika.Premik;
 import logika.Stanje;
 
 public class Minimax {
-	
-	@SuppressWarnings("unused")
-	private static final Random RANDOM = new Random();
 	
 	private static final int ZMAGA = (1 << 20);
 	private static final int PORAZ = - ZMAGA;
@@ -22,7 +18,7 @@ public class Minimax {
 		for (Premik p : igra.aktivnaTocka.veljavnePoteze) {
 			Igra tempIgra = new Igra(igra);
 			tempIgra.odigraj(p);
-			int ocena = minimaxPozicija (tempIgra, globina-1, jaz);
+			int ocena = minimaxPozicija(tempIgra, globina-1, jaz);
 			ocenjeniPremiki.add(new OcenjenPremik(p, ocena));
 		}
 		return ocenjeniPremiki;
@@ -35,29 +31,37 @@ public class Minimax {
 		case ZMAGA_B: return (jaz == Igralec.B ? ZMAGA : PORAZ);
 		default:
 			// Nekdo je na potezi
-			if (globina == 0) {return oceniPozicijo(igra, jaz);}
+			if (globina == 0) return oceniPozicijo(igra, jaz);
 			// globina > 0
 			List<OcenjenPremik> ocenjeniPremiki = oceniPremike(igra, globina, jaz);
-			if (igra.naPotezi == jaz) {return maxOcena(ocenjeniPremiki);}
-			else {return minOcena(ocenjeniPremiki);}
+			if (igra.naPotezi == jaz) return maxOcena(ocenjeniPremiki);
+			else return minOcena(ocenjeniPremiki);
 		}
 	}
 	
 	public static int maxOcena(List<OcenjenPremik> ocenjeniPremiki) {
 		int max = PORAZ;
-		for (OcenjenPremik ocenjenaPoteza : ocenjeniPremiki) {
-			if (ocenjenaPoteza.vrednost > max) {max = ocenjenaPoteza.vrednost;}
+		for (OcenjenPremik ocenjenPremik : ocenjeniPremiki) {
+			if (ocenjenPremik.vrednost > max) max = ocenjenPremik.vrednost;
 		}
 		return max;
 	}
 	
 	public static Premik maxPremik(List<OcenjenPremik> ocenjeniPremiki) {
+		
 		int max = PORAZ;
 		Premik premik = null;
 		for (OcenjenPremik ocenjenPremik : ocenjeniPremiki) {
-			if (ocenjenPremik.vrednost >= max) {
+			if (ocenjenPremik.vrednost > max) {
 				max = ocenjenPremik.vrednost;
 				premik = ocenjenPremik.premik;
+			}
+			else if (ocenjenPremik.vrednost == max) {
+				 if (Math.round(Math.random()) == 0) {
+					// Da se izognemo nenehnemu ponavljanju potez, 
+					// bo racunalnik izbiral med takimi, katerih vrednost je najvecja.
+					premik = ocenjenPremik.premik;
+				 }
 			}
 		}
 		return premik;
@@ -66,7 +70,7 @@ public class Minimax {
 	public static int minOcena(List<OcenjenPremik> ocenjeniPremiki) {
 		int min = ZMAGA;
 		for (OcenjenPremik ocenjenPremik : ocenjeniPremiki) {
-			if (ocenjenPremik.vrednost < min) {min = ocenjenPremik.vrednost;}
+			if (ocenjenPremik.vrednost < min) min = ocenjenPremik.vrednost;
 		}
 		return min;
 	}

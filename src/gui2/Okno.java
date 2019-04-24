@@ -15,7 +15,7 @@ public class Okno extends JFrame implements ActionListener {
 	
 	Platno platno;
 	
-	private JMenuItem menuClovekClovek, menuClovekRacunalnik;
+	private JMenuItem menuClovekClovek, menuClovekRacunalnik, menuRacunalnikClovek, menuRacunalnikRacunalnik;
 	private JMenuItem menuLahko, menuSrednje, menuTezko;
 	private JMenuItem menuOdpri, menuShrani, menuKoncaj;
 	private JMenuItem menuBarvaIgralcaA, menuBarvaIgralcaB, menuBarvaOzadja, menuBarvaCrt;
@@ -40,6 +40,8 @@ public class Okno extends JFrame implements ActionListener {
 		
 		menuClovekClovek = new JMenuItem("Clovek proti cloveku ...");
 		menuClovekRacunalnik = new JMenuItem("Clovek proti racunalniku ...");
+		menuRacunalnikClovek = new JMenuItem("Racunalnik proti cloveku ...");
+		menuRacunalnikRacunalnik = new JMenuItem("Racunalnik proti racunalniku ...");
 		
 		menuLahko = new JMenuItem("Lahka tezavnost");
 		menuSrednje = new JMenuItem("Srednja tezavnost");
@@ -56,6 +58,9 @@ public class Okno extends JFrame implements ActionListener {
 		
 		menuIgra.add(menuClovekClovek);
 		menuIgra.add(menuClovekRacunalnik);
+		menuIgra.add(menuRacunalnikClovek);
+		menuIgra.add(menuRacunalnikRacunalnik);
+		
 		menuIgra.addSeparator();
 		menuIgra.add(menuOdpri);
 		menuIgra.add(menuShrani);
@@ -78,6 +83,8 @@ public class Okno extends JFrame implements ActionListener {
 		
 		menuClovekClovek.addActionListener(this);
 		menuClovekRacunalnik.addActionListener(this);
+		menuRacunalnikClovek.addActionListener(this);
+		menuRacunalnikRacunalnik.addActionListener(this);
 		
 		menuLahko.addActionListener(this);
 		menuSrednje.addActionListener(this);
@@ -143,6 +150,12 @@ public class Okno extends JFrame implements ActionListener {
 		}
 		else if (source == menuClovekRacunalnik) {
 			vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.RACUNALNIK);
+		}
+		else if (source == menuRacunalnikClovek) {
+			vodja.novaIgra(VrstaIgralca.RACUNALNIK, VrstaIgralca.CLOVEK);
+		}
+		else if (source == menuRacunalnikRacunalnik) {
+			vodja.novaIgra(VrstaIgralca.RACUNALNIK, VrstaIgralca.RACUNALNIK);
 		}
 		else if (source == menuLahko) {
 			Vodja.globinaMinimax = 1;

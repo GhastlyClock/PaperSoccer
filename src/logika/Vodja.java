@@ -62,7 +62,7 @@ public class Vodja {
 	}
 	
 	public void racunalnikovaPoteza(Igralec igralec) {
-		List<OcenjenPremik> ocenjeniPremiki = Minimax.oceniPremike (igra, globinaMinimax, igralec);
+		List<OcenjenPremik> ocenjeniPremiki = Minimax.oceniPremike(igra, globinaMinimax, igralec);
 		Premik premik = Minimax.maxPremik(ocenjeniPremiki);
 		igra.odigraj(premik);
 		igramo();

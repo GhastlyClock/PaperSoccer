@@ -73,6 +73,14 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		int k = (Igra.STOLPEC / 2);
 		int l = ((Igra.STOLPEC / 2) + 2);
 		
+		// Dodam barvo v gol
+		g.setColor(barvaIgralecB);
+		g.fillRect(k*m, n - m, l*m - k*m, m/2);
+		g.setColor(barvaIgralecA);
+		g.fillRect(k*m, visina - m, l*m - k*m, m/2);
+		
+		g.setColor(barvaCrt);
+		
 		g.drawLine(k*m, n - m, k*m, n);
 		g.drawLine(l*m, n - m, l*m, n);
 		g.drawLine(k*m, n - m, l*m, n - m);

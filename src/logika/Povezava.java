@@ -12,4 +12,9 @@ public class Povezava {
 		this.igralec = igralec;
 	}
 	
+	@Override
+	public String toString() {
+		return "Povezava [" + tocka1 + ", " + tocka2 + ", " + igralec + "]";
+	}
+	
 }

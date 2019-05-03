@@ -14,8 +14,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	private Vodja vodja;
 	
 	Color barvaTock, barvaMoznihTock, barvaOzadja, barvaTrenutneTocke, barvaCrt;
-	Color barvaPotencialnePoteze;
-	public Color barvaIgralecA, barvaIgralecB;
+	Color barvaPotencialnePoteze, barvaIgralecA, barvaIgralecB; 
 	
 	private static boolean potencialnaPoteza = false;
 	private static Polje naslednjaPoteza = null;
@@ -37,7 +36,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		barvaOzadja = new Color(0, 115, 30);
 		barvaCrt = Color.WHITE;
 		barvaTrenutneTocke = Color.CYAN;
-		barvaPotencialnePoteze = Color.MAGENTA;
+		barvaPotencialnePoteze = new Color(220, 255, 180);
 		barvaIgralecA = Color.RED;
 		barvaIgralecB = Color.BLACK;
 		
@@ -73,6 +72,14 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		
 		int k = (Igra.STOLPEC / 2);
 		int l = ((Igra.STOLPEC / 2) + 2);
+		
+		// Dodam barvo v gol
+		g.setColor(barvaIgralecB);
+		g.fillRect(k*m, n - m, l*m - k*m, m/2);
+		g.setColor(barvaIgralecA);
+		g.fillRect(k*m, visina - m, l*m - k*m, m/2);
+		
+		g.setColor(barvaCrt);
 		
 		g.drawLine(k*m, n - m, k*m, n);
 		g.drawLine(l*m, n - m, l*m, n);
@@ -131,7 +138,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 					continue;
 				}
 				else if (vodja.igra.sosednjaVeljavnaPolja().contains(t)) {
-					g.setColor(Color.YELLOW);
+					g.setColor(barvaMoznihTock);
 					int a = t.getX();
 					int b = t.getY();
 					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
@@ -157,12 +164,6 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	
 	private static int round(double x) {
 		return (int)(x + 0.5);
-	}
-	
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -214,9 +215,8 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 				}
 			}
 			if (razdalja < polmer + 5) {
-				// Minus, zato ker plosca obrnjeno simetricno kot platno
-				int premikX = - (vodja.igra.aktivnaTocka.getX() - najblizja.getX());
-				int premikY = - (vodja.igra.aktivnaTocka.getY() - najblizja.getY());
+				int premikX = najblizja.getX() - vodja.igra.aktivnaTocka.getX();
+				int premikY = najblizja.getY() - vodja.igra.aktivnaTocka.getY();
 				for (Premik p : vodja.igra.aktivnaTocka.veljavnePoteze) {
 					if (p.getX() == premikX && p.getY() == premikY) {
 						vodja.clovekovaPoteza(p);
@@ -226,7 +226,13 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 			}
 		}
 	}
-
+	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub

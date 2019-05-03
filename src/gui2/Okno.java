@@ -15,7 +15,7 @@ public class Okno extends JFrame implements ActionListener {
 	
 	Platno platno;
 	
-	private JMenuItem menuClovekClovek, menuClovekRacunalnik;
+	private JMenuItem menuClovekClovek, menuClovekRacunalnik, menuRacunalnikClovek, menuRacunalnikRacunalnik;
 	private JMenuItem menuLahko, menuSrednje, menuTezko;
 	private JMenuItem menuOdpri, menuShrani, menuKoncaj;
 	private JMenuItem menuBarvaIgralcaA, menuBarvaIgralcaB, menuBarvaOzadja, menuBarvaCrt;
@@ -40,6 +40,8 @@ public class Okno extends JFrame implements ActionListener {
 		
 		menuClovekClovek = new JMenuItem("Clovek proti cloveku ...");
 		menuClovekRacunalnik = new JMenuItem("Clovek proti racunalniku ...");
+		menuRacunalnikClovek = new JMenuItem("Racunalnik proti cloveku ...");
+		menuRacunalnikRacunalnik = new JMenuItem("Racunalnik proti racunalniku ...");
 		
 		menuLahko = new JMenuItem("Lahka tezavnost");
 		menuSrednje = new JMenuItem("Srednja tezavnost");
@@ -56,6 +58,9 @@ public class Okno extends JFrame implements ActionListener {
 		
 		menuIgra.add(menuClovekClovek);
 		menuIgra.add(menuClovekRacunalnik);
+		menuIgra.add(menuRacunalnikClovek);
+		menuIgra.add(menuRacunalnikRacunalnik);
+		
 		menuIgra.addSeparator();
 		menuIgra.add(menuOdpri);
 		menuIgra.add(menuShrani);
@@ -78,6 +83,8 @@ public class Okno extends JFrame implements ActionListener {
 		
 		menuClovekClovek.addActionListener(this);
 		menuClovekRacunalnik.addActionListener(this);
+		menuRacunalnikClovek.addActionListener(this);
+		menuRacunalnikRacunalnik.addActionListener(this);
 		
 		menuLahko.addActionListener(this);
 		menuSrednje.addActionListener(this);
@@ -121,14 +128,18 @@ public class Okno extends JFrame implements ActionListener {
 			JFileChooser chooser = new JFileChooser ();
 			int gumb = chooser.showOpenDialog(this);
 			if (gumb == JFileChooser.APPROVE_OPTION) {
-				
+				String ime = chooser.getSelectedFile().getPath();
+				Igra igra = Vodja.preberi(ime);
+				vodja.igra = igra;
+				vodja.igramo();
 			}
 		}
 		else if (source == menuShrani) {
 			JFileChooser chooser = new JFileChooser ();
 			int gumb = chooser.showOpenDialog(this);
 			if (gumb == JFileChooser.APPROVE_OPTION) {
-				
+				String ime = chooser.getSelectedFile().getPath();
+				vodja.shrani(ime);
 			}
 		}
 		else if (source == menuKoncaj) {
@@ -140,17 +151,23 @@ public class Okno extends JFrame implements ActionListener {
 		else if (source == menuClovekRacunalnik) {
 			vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.RACUNALNIK);
 		}
+		else if (source == menuRacunalnikClovek) {
+			vodja.novaIgra(VrstaIgralca.RACUNALNIK, VrstaIgralca.CLOVEK);
+		}
+		else if (source == menuRacunalnikRacunalnik) {
+			vodja.novaIgra(VrstaIgralca.RACUNALNIK, VrstaIgralca.RACUNALNIK);
+		}
 		else if (source == menuLahko) {
-			int globina = 1;
-			System.out.println(Integer.toString(globina));
+			Vodja.globinaMinimax = 1;
+			System.out.println("Nastavljena je lahka tezavnost.");
 		}
 		else if (source == menuSrednje) {
-			int globina = 3;
-			System.out.println(Integer.toString(globina));
+			Vodja.globinaMinimax = 3;
+			System.out.println("Nastavljena je srednja tezavnost.");
 		}
 		else if (source == menuTezko) {
-			int globina = 5;
-			System.out.println(Integer.toString(globina));
+			Vodja.globinaMinimax = 5;
+			System.out.println("Nastavljena je tezka tezavnost.");
 		}
 		else if (source == menuBarvaIgralcaA) {
 			Color barva = JColorChooser.showDialog(this, "Barva igralca A", platno.barvaIgralecA);

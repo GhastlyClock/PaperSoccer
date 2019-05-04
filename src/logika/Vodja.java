@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import gui2.*;
+import gui.*;
 import inteligenca.Minimax;
 import inteligenca.OcenjenPremik;
 

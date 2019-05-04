@@ -5,30 +5,33 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import logika.Igralec;
+import logika.Igra;
+import logika.Vodja;
+import logika.VrstaIgralca;
+
 
 @SuppressWarnings("serial")
 public class Okno extends JFrame implements ActionListener {
 	
 	Platno platno;
 	
-	Color barvaIgralec1, barvaIgralec2;
-	
-	private JMenuItem menuClovekClovek, menuClovekRacunalnik;
+	private JMenuItem menuClovekClovek, menuClovekRacunalnik, menuRacunalnikClovek, menuRacunalnikRacunalnik;
 	private JMenuItem menuLahko, menuSrednje, menuTezko;
 	private JMenuItem menuOdpri, menuShrani, menuKoncaj;
-	private JMenuItem menuBarvaIgralca1, menuBarvaIgralca2, menuBarvaOzadja, menuBarvaCrt;
+	private JMenuItem menuBarvaIgralcaA, menuBarvaIgralcaB, menuBarvaOzadja, menuBarvaCrt;
 	
 	private JLabel status;
+	
+	private Vodja vodja;
 	
 	public Okno() {
 		super();
 		this.setTitle("Paper Soccer");
 		this.setLayout(new GridBagLayout());
-		platno = new Platno((7+2-1)*60, (11+2-2)*60);
+
+		this.vodja = new Vodja(this);
 		
-		barvaIgralec1 = Color.BLACK;
-		barvaIgralec2 = Color.RED;
+		platno = new Platno((Igra.STOLPEC+2-1)*60, (Igra.VRSTICA+2)*60, vodja);
 		
 		JMenuBar menubar = new JMenuBar();
 		
@@ -37,22 +40,27 @@ public class Okno extends JFrame implements ActionListener {
 		
 		menuClovekClovek = new JMenuItem("Clovek proti cloveku ...");
 		menuClovekRacunalnik = new JMenuItem("Clovek proti racunalniku ...");
+		menuRacunalnikClovek = new JMenuItem("Racunalnik proti cloveku ...");
+		menuRacunalnikRacunalnik = new JMenuItem("Racunalnik proti racunalniku ...");
 		
-		menuLahko = new JMenuItem("Lahka tezavnost ...");
-		menuSrednje = new JMenuItem("Srednja tezavnost ...");
-		menuTezko = new JMenuItem("Tezka tezavnost ...");
+		menuLahko = new JMenuItem("Lahka tezavnost");
+		menuSrednje = new JMenuItem("Srednja tezavnost");
+		menuTezko = new JMenuItem("Tezka tezavnost");
 		
 		menuOdpri = new JMenuItem("Odpri igro ...");
 		menuShrani = new JMenuItem("Shrani igro ...");			
-		menuKoncaj = new JMenuItem("Koncaj ...");
+		menuKoncaj = new JMenuItem("Koncaj");
 		
-		menuBarvaIgralca1 = new JMenuItem("Barva igralca 1 ...");
-		menuBarvaIgralca2 = new JMenuItem("Barva igralca 2 ...");
+		menuBarvaIgralcaA = new JMenuItem("Barva igralca A ...");
+		menuBarvaIgralcaB = new JMenuItem("Barva igralca B ...");
 		menuBarvaOzadja = new JMenuItem("Barva ozadja ...");
 		menuBarvaCrt = new JMenuItem("Barva crt igrisca ...");
 		
 		menuIgra.add(menuClovekClovek);
 		menuIgra.add(menuClovekRacunalnik);
+		menuIgra.add(menuRacunalnikClovek);
+		menuIgra.add(menuRacunalnikRacunalnik);
+		
 		menuIgra.addSeparator();
 		menuIgra.add(menuOdpri);
 		menuIgra.add(menuShrani);
@@ -62,8 +70,8 @@ public class Okno extends JFrame implements ActionListener {
 		menuNastavitve.add(menuSrednje);
 		menuNastavitve.add(menuTezko);
 		menuNastavitve.addSeparator();
-		menuNastavitve.add(menuBarvaIgralca1);
-		menuNastavitve.add(menuBarvaIgralca2);
+		menuNastavitve.add(menuBarvaIgralcaA);
+		menuNastavitve.add(menuBarvaIgralcaB);
 		menuNastavitve.addSeparator();
 		menuNastavitve.add(menuBarvaOzadja);
 		menuNastavitve.add(menuBarvaCrt);
@@ -75,6 +83,8 @@ public class Okno extends JFrame implements ActionListener {
 		
 		menuClovekClovek.addActionListener(this);
 		menuClovekRacunalnik.addActionListener(this);
+		menuRacunalnikClovek.addActionListener(this);
+		menuRacunalnikRacunalnik.addActionListener(this);
 		
 		menuLahko.addActionListener(this);
 		menuSrednje.addActionListener(this);
@@ -84,8 +94,8 @@ public class Okno extends JFrame implements ActionListener {
 		menuShrani.addActionListener(this);			
 		menuKoncaj.addActionListener(this);
 		
-		menuBarvaIgralca1.addActionListener(this);
-		menuBarvaIgralca2.addActionListener(this);
+		menuBarvaIgralcaA.addActionListener(this);
+		menuBarvaIgralcaB.addActionListener(this);
 		menuBarvaOzadja.addActionListener(this);
 		menuBarvaCrt.addActionListener(this);
 		
@@ -102,14 +112,13 @@ public class Okno extends JFrame implements ActionListener {
 		status.setFont(new Font(status.getFont().getName(),
 							    status.getFont().getStyle(),
 							    20));
-		status.setText("Na potezi: Igralec 1");
 		GridBagConstraints status_layout = new GridBagConstraints();
 		status_layout.gridx = 0;
 		status_layout.gridy = 1;
 		status_layout.anchor = GridBagConstraints.CENTER;
 		getContentPane().add(status, status_layout);
-		
-		
+
+		vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.RACUNALNIK);
 	}
 
 	@Override
@@ -119,49 +128,59 @@ public class Okno extends JFrame implements ActionListener {
 			JFileChooser chooser = new JFileChooser ();
 			int gumb = chooser.showOpenDialog(this);
 			if (gumb == JFileChooser.APPROVE_OPTION) {
-				
+				String ime = chooser.getSelectedFile().getPath();
+				Igra igra = Vodja.preberi(ime);
+				vodja.igra = igra;
+				vodja.igramo();
 			}
 		}
 		else if (source == menuShrani) {
 			JFileChooser chooser = new JFileChooser ();
 			int gumb = chooser.showOpenDialog(this);
 			if (gumb == JFileChooser.APPROVE_OPTION) {
-				
+				String ime = chooser.getSelectedFile().getPath();
+				vodja.shrani(ime);
 			}
 		}
 		else if (source == menuKoncaj) {
 			System.exit(0);
 		}
 		else if (source == menuClovekClovek) {
-			System.out.println("CC DELA");
+			vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.CLOVEK);
 		}
 		else if (source == menuClovekRacunalnik) {
-			System.out.println("CR DELA");
+			vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.RACUNALNIK);
+		}
+		else if (source == menuRacunalnikClovek) {
+			vodja.novaIgra(VrstaIgralca.RACUNALNIK, VrstaIgralca.CLOVEK);
+		}
+		else if (source == menuRacunalnikRacunalnik) {
+			vodja.novaIgra(VrstaIgralca.RACUNALNIK, VrstaIgralca.RACUNALNIK);
 		}
 		else if (source == menuLahko) {
-			int globina = 1;
-			System.out.println(Integer.toString(globina));
+			Vodja.globinaMinimax = 1;
+			System.out.println("Nastavljena je lahka tezavnost.");
 		}
 		else if (source == menuSrednje) {
-			int globina = 3;
-			System.out.println(Integer.toString(globina));
+			Vodja.globinaMinimax = 3;
+			System.out.println("Nastavljena je srednja tezavnost.");
 		}
 		else if (source == menuTezko) {
-			int globina = 5;
-			System.out.println(Integer.toString(globina));
+			Vodja.globinaMinimax = 5;
+			System.out.println("Nastavljena je tezka tezavnost.");
 		}
-		else if (source == menuBarvaIgralca1) {
-			Color barva = JColorChooser.showDialog(this, "Barva igralca 1", barvaIgralec1);
+		else if (source == menuBarvaIgralcaA) {
+			Color barva = JColorChooser.showDialog(this, "Barva igralca A", platno.barvaIgralecA);
 			if (barva != null) {
-				barvaIgralec1 = barva;
+				platno.barvaIgralecA = barva;
 				platno.repaint();
 				System.out.println("Platno repainted");
 			}
 		}
-		else if (source == menuBarvaIgralca2) {
-			Color barva = JColorChooser.showDialog(this, "Barva igralca 2", barvaIgralec2);
+		else if (source == menuBarvaIgralcaB) {
+			Color barva = JColorChooser.showDialog(this, "Barva igralca B", platno.barvaIgralecB);
 			if (barva != null) {
-				barvaIgralec2 = barva;
+				platno.barvaIgralecB = barva;
 				platno.repaint();
 				System.out.println("Platno repainted");
 			}
@@ -182,6 +201,21 @@ public class Okno extends JFrame implements ActionListener {
 				System.out.println("Platno repainted");
 			}
 		}
+	}
+
+	public void osveziGUI() {
+		if (vodja.igra == null) {
+			status.setText("Igra ni v teku.");
+		}
+		else {
+			switch(vodja.igra.stanje()) {
+			case NA_POTEZI_A : status.setText("Na potezi je igralec A"); break;
+			case NA_POTEZI_B : status.setText("Na potezi je igralec B"); break;
+			case ZMAGA_A : status.setText("Zmagal je igralec A"); break;
+			case ZMAGA_B : status.setText("Zmagal je igralec B"); break;			
+			}
+		}
+		platno.repaint();
 	}
 	
 }

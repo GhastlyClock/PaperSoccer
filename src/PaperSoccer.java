@@ -1,4 +1,4 @@
-import gui2.*;
+import gui.*;
 
 public class PaperSoccer {
 

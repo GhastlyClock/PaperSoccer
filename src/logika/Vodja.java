@@ -18,8 +18,8 @@ public class Vodja {
 	public Igra igra;
 	
 	// Ali je clovek igralec A ali B?
-	private static VrstaIgralca igralecA;
-	private static VrstaIgralca igralecB;
+	public static VrstaIgralca igralecA;
+	public static VrstaIgralca igralecB;
 	
 	public boolean clovekNaVrsti;
 	

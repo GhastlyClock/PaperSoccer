@@ -25,9 +25,19 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	private int klikX, klikY;
 	private int premikX, premikY;
 	
-	public Platno(int sirina, int visina, Vodja vodja) {
-		this.sirina = sirina;
-		this.visina = visina;
+	Dimension velikostZaslona;
+	
+	int razmikTock;
+	
+	public Platno(Vodja vodja) {
+		velikostZaslona = Toolkit.getDefaultToolkit().getScreenSize();
+		int visina = (int) velikostZaslona.getHeight();
+		
+		// Odstejem (visina * 0.3) zaradi "taskbar"
+		razmikTock = (int) ((visina - (visina * 0.3)) / Igra.VRSTICA);
+
+		this.sirina = (Igra.STOLPEC + 1) * razmikTock;
+		this.visina = (Igra.VRSTICA + 2) * razmikTock;
 		
 		this.vodja = vodja;
 
@@ -46,6 +56,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setFocusable(true);
+		
 	}
 	
 	@Override
@@ -63,44 +74,43 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		g2.setStroke(new BasicStroke(2));
 		
 		g.setColor(barvaCrt);
-		int m = 60;
-		int n = m/2 + m;
-		g.drawLine(m, n, sirina - m, n);
-		g.drawLine(m, n, m, visina - n);
-		g.drawLine(m, visina - n, sirina - m, visina - n);
-		g.drawLine(sirina - m, n, sirina - m, visina - n);
+		int n = razmikTock/2 + razmikTock;
+		g.drawLine(razmikTock, n, sirina - razmikTock, n);
+		g.drawLine(razmikTock, n, razmikTock, visina - n);
+		g.drawLine(razmikTock, visina - n, sirina - razmikTock, visina - n);
+		g.drawLine(sirina - razmikTock, n, sirina - razmikTock, visina - n);
 		
 		int k = (Igra.STOLPEC / 2);
 		int l = ((Igra.STOLPEC / 2) + 2);
 		
 		// Dodam barvo v gol
 		g.setColor(barvaIgralecB);
-		g.fillRect(k*m, n - m, l*m - k*m, m/2);
+		g.fillRect(k*razmikTock, n - razmikTock, l*razmikTock - k*razmikTock, razmikTock/2);
 		g.setColor(barvaIgralecA);
-		g.fillRect(k*m, visina - m, l*m - k*m, m/2);
+		g.fillRect(k*razmikTock, visina - razmikTock, l*razmikTock - k*razmikTock, razmikTock/2);
 		
 		g.setColor(barvaCrt);
 		
-		g.drawLine(k*m, n - m, k*m, n);
-		g.drawLine(l*m, n - m, l*m, n);
-		g.drawLine(k*m, n - m, l*m, n - m);
+		g.drawLine(k*razmikTock, n - razmikTock, k*razmikTock, n);
+		g.drawLine(l*razmikTock, n - razmikTock, l*razmikTock, n);
+		g.drawLine(k*razmikTock, n - razmikTock, l*razmikTock, n - razmikTock);
 		
-		g.drawLine(k*m, visina - n + m, k*m, visina - n);
-		g.drawLine(l*m, visina - n + m, l*m, visina - n);
-		g.drawLine(k*m, visina - n + m, l*m, visina - n + m);
+		g.drawLine(k*razmikTock, visina - n + razmikTock, k*razmikTock, visina - n);
+		g.drawLine(l*razmikTock, visina - n + razmikTock, l*razmikTock, visina - n);
+		g.drawLine(k*razmikTock, visina - n + razmikTock, l*razmikTock, visina - n + razmikTock);
 		
-		g.drawLine(m, visina/2, sirina - m, visina/2);
+		g.drawLine(razmikTock, visina/2, sirina - razmikTock, visina/2);
 		
 		g.drawOval(sirina/2 - n/2, visina/2 - n/2, n, n);
 		
 		g.setColor(barvaOzadja);
-		g.drawLine(k*m, n, l*m, n);
-		g.drawLine(k*m, visina - n, l*m, visina - n);
+		g.drawLine(k*razmikTock, n, l*razmikTock, n);
+		g.drawLine(k*razmikTock, visina - n, l*razmikTock, visina - n);
 		
 		g.setColor(barvaCrt);
 		g2.setStroke(new BasicStroke(1));
-		g.drawLine(k*m, n, l*m, n);
-		g.drawLine(k*m, visina - n, l*m, visina - n);
+		g.drawLine(k*razmikTock, n, l*razmikTock, n);
+		g.drawLine(k*razmikTock, visina - n, l*razmikTock, visina - n);
 		
 		
 		g2.setStroke(new BasicStroke(debelinaPovezave));
@@ -114,7 +124,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 			Color barva = p.igralec == Igralec.A ? barvaIgralecA : barvaIgralecB;
 			if (barva != null) {
 				g.setColor(barva);
-				g.drawLine(m + m*i1, n - m + m*j1, m + m*i2, n - m + m*j2);
+				g.drawLine(razmikTock + razmikTock*i1, n - razmikTock + razmikTock*j1, razmikTock + razmikTock*i2, n - razmikTock + razmikTock*j2);
 			}
 		}
 		
@@ -125,7 +135,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 			int j2 = naslednjaPoteza.getX();
 			g2.setStroke(new BasicStroke(debelinaPovezave));
 			g.setColor(barvaPotencialnePoteze);
-			g.drawLine(m + m*i1, n - m + m*j1, m + m*i2, n - m + m*j2);
+			g.drawLine(razmikTock + razmikTock*i1, n - razmikTock + razmikTock*j1, razmikTock + razmikTock*i2, n - razmikTock + razmikTock*j2);
 		}
 		
 		g2.setStroke(new BasicStroke(1));
@@ -141,22 +151,22 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 					g.setColor(barvaMoznihTock);
 					int a = t.getX();
 					int b = t.getY();
-					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
-					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
+					g.drawOval(razmikTock + razmikTock*b - r/2, n - razmikTock + razmikTock*a - r/2, r, r);
+					g.fillOval(razmikTock + razmikTock*b - r/2, n - razmikTock + razmikTock*a - r/2, r, r);
 				}
 				else if (t.getX() == vodja.igra.aktivnaTocka.getX() && t.getY() == vodja.igra.aktivnaTocka.getY()) {
 					g.setColor(barvaTrenutneTocke);
 					int a = t.getX();
 					int b = t.getY();
-					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
-					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
+					g.drawOval(razmikTock + razmikTock*b - r/2, n - razmikTock + razmikTock*a - r/2, r, r);
+					g.fillOval(razmikTock + razmikTock*b - r/2, n - razmikTock + razmikTock*a - r/2, r, r);
 				}
 				else {
 					g.setColor(barvaTock);
 					int a = t.getX();
 					int b = t.getY();
-					g.drawOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
-					g.fillOval(m + m*b - r/2, n - m + m*a - r/2, r, r);
+					g.drawOval(razmikTock + razmikTock*b - r/2, n - razmikTock + razmikTock*a - r/2, r, r);
+					g.fillOval(razmikTock + razmikTock*b - r/2, n - razmikTock + razmikTock*a - r/2, r, r);
 				}
 			}
 		}
@@ -173,10 +183,9 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		Polje najblizja = null;
 		double razdalja = Double.POSITIVE_INFINITY;
 		for (Polje t : vodja.igra.sosednjaVeljavnaPolja()) {
-				int m = 60;
-				int n = m/2 + m;
-				int i = m + m*t.getY();
-				int j = n - m + m*t.getX();
+				int n = razmikTock/2 + razmikTock;
+				int i = razmikTock + razmikTock*t.getY();
+				int j = n - razmikTock + razmikTock*t.getX();
 				double r = Math.sqrt(Math.pow(premikX - i, 2) + Math.pow(premikY - j, 2));
 				if (r < razdalja) {
 					razdalja = r;
@@ -204,10 +213,9 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 			Polje najblizja = null;
 			double razdalja = Double.POSITIVE_INFINITY;
 			for (Polje t : vodja.igra.sosednjaVeljavnaPolja()) {
-				int m = 60;
-				int n = m/2 + m;
-				int i = m + m*t.getY();
-				int j = n - m + m*t.getX();
+				int n = razmikTock/2 + razmikTock;
+				int i = razmikTock + razmikTock*t.getY();
+				int j = n - razmikTock + razmikTock*t.getX();
 				double r = Math.sqrt(Math.pow(klikX - i, 2) + Math.pow(klikY - j, 2));
 				if (r < razdalja) {
 					razdalja = r;

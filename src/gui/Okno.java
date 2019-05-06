@@ -13,7 +13,7 @@ public class Okno extends JFrame implements ActionListener {
 	
 	Platno platno;
 	
-	Nastavitve nastavitve;
+	Nastavi nastavitve;
 	
 	private JMenuItem menuNovaIgra, menuNastavitve, menuOdpri, menuShrani, menuKoncaj;
 	private JMenuItem menuClovekClovek, menuClovekRacunalnik, menuRacunalnikClovek, menuRacunalnikRacunalnik;
@@ -24,12 +24,14 @@ public class Okno extends JFrame implements ActionListener {
 	
 	public Okno() {
 		super();
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Paper Soccer");
 		this.setLayout(new GridBagLayout());
 
 		this.vodja = new Vodja(this);
 		
-		nastavitve = new Nastavitve(vodja, this);
+		nastavitve = new Nastavi();
+		nastavitve.pack();
 		
 		platno = new Platno(vodja);
 		
@@ -120,7 +122,7 @@ public class Okno extends JFrame implements ActionListener {
 			vodja.novaIgra(Vodja.igralecA, Vodja.igralecB);
 		}
 		else if (source == menuNastavitve) {
-			nastavitve.frame.setVisible(true);
+			nastavitve.setVisible(true);
 		}
 		else if (source == menuShrani) {
 			JFileChooser chooser = new JFileChooser ();

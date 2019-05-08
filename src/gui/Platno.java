@@ -25,16 +25,16 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	private int klikX, klikY;
 	private int premikX, premikY;
 	
-	Dimension velikostZaslona;
+	int visinaZaslona;
 	
 	int razmikTock;
 	
 	public Platno(Vodja vodja) {
-		velikostZaslona = Toolkit.getDefaultToolkit().getScreenSize();
-		int visina = (int) velikostZaslona.getHeight();
+		Dimension velikostZaslona = Toolkit.getDefaultToolkit().getScreenSize();
+		visinaZaslona = (int) velikostZaslona.getHeight();
 		
 		// Odstejem (visina * 0.3) zaradi "taskbar"
-		razmikTock = (int) ((visina - (visina * 0.3)) / Igra.VRSTICA);
+		razmikTock = (int) ((visinaZaslona - (visinaZaslona * 0.3)) / Igra.VRSTICA);
 
 		this.sirina = (Igra.STOLPEC + 1) * razmikTock;
 		this.visina = (Igra.VRSTICA + 2) * razmikTock;

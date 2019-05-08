@@ -29,11 +29,11 @@ public class Okno extends JFrame implements ActionListener {
 		this.setLayout(new GridBagLayout());
 
 		this.vodja = new Vodja(this);
-		
-		nastavitve = new Nastavi();
-		nastavitve.pack();
-		
+
 		platno = new Platno(vodja);
+		
+		nastavitve = new Nastavi(vodja, platno);
+		nastavitve.pack();
 		
 		JMenuBar menubar = new JMenuBar();
 		

@@ -11,12 +11,11 @@ import logika.*;
 @SuppressWarnings("serial")
 public class Okno extends JFrame implements ActionListener {
 	
-	Platno platno;
+	public Platno platno;
 	
 	Nastavi nastavitve;
 	
 	private JMenuItem menuNovaIgra, menuNastavitve, menuOdpri, menuShrani, menuKoncaj;
-	private JMenuItem menuClovekClovek, menuClovekRacunalnik, menuRacunalnikClovek, menuRacunalnikRacunalnik;
 	
 	private JLabel status;
 	
@@ -27,30 +26,29 @@ public class Okno extends JFrame implements ActionListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Paper Soccer");
 		this.setLayout(new GridBagLayout());
-
+ 
 		this.vodja = new Vodja(this);
 
 		platno = new Platno(vodja);
 		
+		// uporabi okno nastavitve
 		nastavitve = new Nastavi(vodja, platno);
 		nastavitve.pack();
 		
+		// nov menu
 		JMenuBar menubar = new JMenuBar();
 		
+		// zavihek v menuju
 		JMenu menuIgra = new JMenu("Igra");
-		JMenu menuTipIgre = new JMenu("Tip igre");
 		
-		menuNovaIgra = new JMenuItem("Nova igra");
+		// opcije v zavihku
+		menuNovaIgra = new JMenuItem("Nova igra ...");
 		menuNastavitve = new JMenuItem("Nastavitve ...");
 		menuOdpri = new JMenuItem("Odpri igro ...");
 		menuShrani = new JMenuItem("Shrani igro ...");			
 		menuKoncaj = new JMenuItem("Koncaj ...");
 		
-		menuClovekClovek = new JMenuItem("Clovek proti cloveku ...");
-		menuClovekRacunalnik = new JMenuItem("Clovek proti racunalniku ...");
-		menuRacunalnikClovek = new JMenuItem("Racunalnik proti cloveku ...");
-		menuRacunalnikRacunalnik = new JMenuItem("Racunalnik proti racunalniku ...");
-		
+		// doda opcije v zavihek
 		menuIgra.add(menuNovaIgra);
 		menuIgra.addSeparator();
 		menuIgra.add(menuNastavitve);
@@ -59,16 +57,13 @@ public class Okno extends JFrame implements ActionListener {
 		menuIgra.addSeparator();
 		menuIgra.add(menuKoncaj);
 		
-		menuTipIgre.add(menuClovekClovek);
-		menuTipIgre.add(menuClovekRacunalnik);
-		menuTipIgre.add(menuRacunalnikClovek);
-		menuTipIgre.add(menuRacunalnikRacunalnik);
-		
+		// doda zavihek v menu
 		menubar.add(menuIgra);
-		menubar.add(menuTipIgre);
 		
+		// doda menu v okno
 		setJMenuBar(menubar);
 		
+		// ActionListener-ji za opcije v zavihku
 		menuNovaIgra.addActionListener(this);
 		
 		menuNastavitve.addActionListener(this);
@@ -77,11 +72,8 @@ public class Okno extends JFrame implements ActionListener {
 		
 		menuKoncaj.addActionListener(this);
 		
-		menuClovekClovek.addActionListener(this);
-		menuClovekRacunalnik.addActionListener(this);
-		menuRacunalnikClovek.addActionListener(this);
-		menuRacunalnikRacunalnik.addActionListener(this);
 		
+		// postavitev v oknu
 		GridBagConstraints polje_layout = new GridBagConstraints();
 		polje_layout.gridx = 0;
 		polje_layout.gridy = 0;
@@ -100,7 +92,8 @@ public class Okno extends JFrame implements ActionListener {
 		status_layout.gridy = 1;
 		status_layout.anchor = GridBagConstraints.CENTER;
 		getContentPane().add(status, status_layout);
-
+		
+		// zacetek igre
 		vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.RACUNALNIK);
 	}
 	
@@ -108,6 +101,7 @@ public class Okno extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if (source == menuOdpri) {
+			// moznost odprtja stare igre
 			JFileChooser chooser = new JFileChooser ();
 			int gumb = chooser.showOpenDialog(this);
 			if (gumb == JFileChooser.APPROVE_OPTION) {
@@ -119,12 +113,15 @@ public class Okno extends JFrame implements ActionListener {
 		}
 		
 		else if (source == menuNovaIgra) {
+			// nova igra
 			vodja.novaIgra(Vodja.igralecA, Vodja.igralecB);
 		}
 		else if (source == menuNastavitve) {
+			// odpre okno nastavitve
 			nastavitve.setVisible(true);
 		}
 		else if (source == menuShrani) {
+			// moznost shraniti trenutno igro
 			JFileChooser chooser = new JFileChooser ();
 			int gumb = chooser.showOpenDialog(this);
 			if (gumb == JFileChooser.APPROVE_OPTION) {
@@ -133,22 +130,12 @@ public class Okno extends JFrame implements ActionListener {
 			}
 		}
 		else if (source == menuKoncaj) {
+			// zapre aplikacijo
 			System.exit(0);
-		}
-		else if (source == menuClovekClovek) {
-			vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.CLOVEK);
-		}
-		else if (source == menuClovekRacunalnik) {
-			vodja.novaIgra(VrstaIgralca.CLOVEK, VrstaIgralca.RACUNALNIK);
-		}
-		else if (source == menuRacunalnikClovek) {
-			vodja.novaIgra(VrstaIgralca.RACUNALNIK, VrstaIgralca.CLOVEK);
-		}
-		else if (source == menuRacunalnikRacunalnik) {
-			vodja.novaIgra(VrstaIgralca.RACUNALNIK, VrstaIgralca.RACUNALNIK);
 		}
 	}
 
+	// tekst v statusni vrstici
 	public void osveziGUI() {
 		if (vodja.igra == null) {
 			status.setText("Igra ni v teku.");

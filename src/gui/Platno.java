@@ -9,7 +9,8 @@ import logika.*;
 @SuppressWarnings("serial")
 public class Platno extends JPanel implements MouseListener, MouseMotionListener{
 	
-	int sirina, visina;
+
+	int visina,sirina;
 
 	private Vodja vodja;
 	
@@ -25,17 +26,18 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	private int klikX, klikY;
 	private int premikX, premikY;
 	
-	int visinaZaslona;
+	public int visinaZaslona;
 	
 	int razmikTock;
 	
 	public Platno(Vodja vodja) {
+		// da dobimo visino trenutnega zaslona
 		Dimension velikostZaslona = Toolkit.getDefaultToolkit().getScreenSize();
 		visinaZaslona = (int) velikostZaslona.getHeight();
 		
 		// Odstejem (visina * 0.3) zaradi "taskbar"
 		razmikTock = (int) ((visinaZaslona - (visinaZaslona * 0.3)) / Igra.VRSTICA);
-
+		
 		this.sirina = (Igra.STOLPEC + 1) * razmikTock;
 		this.visina = (Igra.VRSTICA + 2) * razmikTock;
 		
@@ -59,18 +61,22 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		
 	}
 	
+	// nastavitev dimenzij platna
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(sirina, visina);
 	}
 	
+	// poslikava platna
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 		
+		// ozadje
 		this.setBackground(barvaOzadja);
 		
+		// narise crte igrisca
 		g2.setStroke(new BasicStroke(2));
 		
 		g.setColor(barvaCrt);
@@ -113,6 +119,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		g.drawLine(k*razmikTock, visina - n, l*razmikTock, visina - n);
 		
 		
+		// narise vse povezave
 		g2.setStroke(new BasicStroke(debelinaPovezave));
 		for (Povezava p : vodja.igra.povezave) {
 			Polje t1 = p.tocka1;
@@ -128,6 +135,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 			}
 		}
 		
+		// izrise potencialno potezo
 		if (potencialnaPoteza) {
 			int i1 = vodja.igra.aktivnaTocka.getY();
 			int j1 = vodja.igra.aktivnaTocka.getX();
@@ -142,6 +150,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		g.setColor(Color.BLACK);
 		int r = round(polmer);
 		
+		// izris vseh tock, trenutne tocke in potencialnih tock
 		for (Polje[] vrsticaPolj : vodja.igra.getPlosca()) {
 			for (Polje t : vrsticaPolj) {
 				if ((t.getX() == 0 || t.getX() == Igra.VRSTICA + 1) && t.getY() != Igra.STOLPEC / 2) {
@@ -172,10 +181,12 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		}
 	}
 	
+	// zaokrozevanje
 	private static int round(double x) {
 		return (int)(x + 0.5);
 	}
-
+	
+	// premikanje miske
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		premikX = e.getX();
@@ -205,6 +216,7 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 		}
 	}
 
+	// klik miske
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		klikX = e.getX();
@@ -236,34 +248,19 @@ public class Platno extends JPanel implements MouseListener, MouseMotionListener
 	}
 	
 	@Override
-	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseDragged(MouseEvent e) {}
 	
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e) {}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) {}
 	
 }
 

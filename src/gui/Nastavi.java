@@ -23,6 +23,9 @@ public class Nastavi extends JFrame {
 	JSlider sldPolmerTock, sldDebelinaPovezave, sldVisinaPlatna;
 	int visinaZaslona, razmikTock;
 	
+	JTabbedPane platnoZavihki;
+	JComponent zavihek1;
+	
 	public Nastavi(Vodja vodja, Platno platno) {
 		super();
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -41,13 +44,14 @@ public class Nastavi extends JFrame {
 		resetiraj();
 		
 		p = new JPanel(new GridLayout(1, 1));
+		p.setPreferredSize(new Dimension(600,400));;
 		
 		
-		JTabbedPane platnoZavihki = new JTabbedPane();
+		platnoZavihki = new JTabbedPane();
         
 		
 		// nov zavihek
-        JComponent zavihek1 = new JPanel(new GridBagLayout());
+        zavihek1 = new JPanel(new GridBagLayout());
         
         
         // mreza na zavihku 1
@@ -58,6 +62,7 @@ public class Nastavi extends JFrame {
         JLabel lblBarvaIgralcaA = new JLabel("Barva igralca A:");
         JButton btnBarvaIgralcaA = new JButton("Nastavi barvo...");
         JLabel lblBarvaA = new JLabel("    ");
+        lblBarvaA.setOpaque(true);
         lblBarvaA.setBackground(platno.barvaIgralecA);
         btnBarvaIgralcaA.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -70,6 +75,7 @@ public class Nastavi extends JFrame {
         JLabel lblBarvaIgralcaB = new JLabel("Barva igralca B:");
         JButton btnBarvaIgralcaB = new JButton("Nastavi barvo...");
         JLabel lblBarvaB = new JLabel("    ");
+        lblBarvaB.setOpaque(true);
         lblBarvaB.setBackground(platno.barvaIgralecB);
         btnBarvaIgralcaB.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -115,35 +121,40 @@ public class Nastavi extends JFrame {
         
         
         // dodajanje komponent v mrezo
-        c.insets = new Insets(0,0,0,20);
+        c.insets = new Insets(0,0,0,40);
         pozicija(0,0);
         zavihek1.add(lblBarvaIgralcaA,c);
-        pozicija(1,0);
-        zavihek1.add(lblBarvaIgralcaB,c);
+        c.insets = new Insets(20,0,0,40);
         pozicija(2,0);
+        zavihek1.add(lblBarvaIgralcaB,c);
+        pozicija(4,0);
         zavihek1.add(lblBarvaOzadja,c);
-        c.insets = new Insets(0,0,0,0);
-        pozicija(0,3);
-        zavihek1.add(lblBarvaA,c);
+        c.insets = new Insets(0,30,0,0);
         pozicija(1,3);
+        zavihek1.add(lblBarvaA,c);
+        pozicija(3,3);
         zavihek1.add(lblBarvaB,c);
+        c.insets = new Insets(0,0,0,0);
         pozicija(2,3);
         c.gridwidth = 2;
-        pozicija(0,1);
-        zavihek1.add(btnBarvaIgralcaA,c);
         pozicija(1,1);
+        zavihek1.add(btnBarvaIgralcaA,c);
+        pozicija(3,1);
         zavihek1.add(btnBarvaIgralcaB,c);
         c.gridwidth = 1;
-        pozicija(2,1);
+        pozicija(5,1);
         zavihek1.add(btnBarvaOzadjaBela,c);
-        pozicija(2,2);
+        c.insets = new Insets(0,10,0,0);
+        pozicija(5,2);
         zavihek1.add(btnBarvaOzadjaZelena,c);
-        c.insets = new Insets(20,0,0,0);
-        pozicija(3,0);
+        c.insets = new Insets(50,0,0,40);
+        pozicija(6,0);
         zavihek1.add(btnPonastavi, c);
-        pozicija(3,2);
+        c.insets = new Insets(50,20,0,0);
+        pozicija(6,2);
         zavihek1.add(btnUporabi,c);
-        pozicija(3,3);
+        c.insets = new Insets(50,20,0,0);
+        pozicija(6,3);
         zavihek1.add(btnPreklici,c);
         
         
@@ -165,7 +176,7 @@ public class Nastavi extends JFrame {
         mreza();
         
         // JSlider in JLabel za polmer tock
-        JLabel lblPolmerTock = new JLabel("Polmer točk:");
+        JLabel lblPolmerTock = new JLabel("Polmer tock:");
         sldPolmerTock = new JSlider(JSlider.HORIZONTAL, 0, 30, 10);
         sldPolmerTock.setLabelTable(sldPolmerTock.createStandardLabels(10, 0));
         sldPolmerTock.setMajorTickSpacing(10);
@@ -179,11 +190,13 @@ public class Nastavi extends JFrame {
         sldDebelinaPovezave.setLabelTable(sldDebelinaPovezave.createStandardLabels(5, 0));
         sldDebelinaPovezave.setMajorTickSpacing(5);
         sldDebelinaPovezave.setMinorTickSpacing(1);
-        sldDebelinaPovezave.setPaintTicks(true);
         sldDebelinaPovezave.setPaintLabels(true);
+        sldDebelinaPovezave.setPaintTicks(true);
+        sldDebelinaPovezave.setPaintTrack(true);
+        sldDebelinaPovezave.setSnapToTicks(true);
         
         // JSlider in JLabel za visino platna
-        JLabel lblVisinaPlatna = new JLabel("Višina platna (v pixlih):");
+        JLabel lblVisinaPlatna = new JLabel("Visina platna (v pixlih):");
         sldVisinaPlatna = new JSlider(JSlider.HORIZONTAL, platno.visinaZaslona/200*100, platno.visinaZaslona/100*120, platno.visinaZaslona);
         sldVisinaPlatna.setMajorTickSpacing(200);
         sldVisinaPlatna.setMinorTickSpacing(50);
@@ -207,22 +220,26 @@ public class Nastavi extends JFrame {
         // dodajanje komponent v mrezo
         pozicija(0,0);
         zavihek2.add(lblPolmerTock,c);
-        pozicija(1,1);
-        zavihek2.add(sldPolmerTock,c);
+        c.insets = new Insets(20,0,0,0);
         pozicija(2,0);
         zavihek2.add(lblDebelinaPovezave,c);
-        pozicija(3,1);
-        zavihek2.add(sldDebelinaPovezave,c);
         pozicija(4,0);
         zavihek2.add(lblVisinaPlatna,c);
+        pozicija(1,1);
+        c.insets = new Insets(0,0,0,0);
+        zavihek2.add(sldPolmerTock,c);
+        pozicija(3,1);
+        zavihek2.add(sldDebelinaPovezave,c);
         pozicija(5,1);
         zavihek2.add(sldVisinaPlatna,c);
-        c.insets = new Insets(20,0,0,0);
+        c.insets = new Insets(50,0,0,30);
         pozicija(6,0);
         zavihek2.add(btnPonastavi2,c);
-        pozicija(6,2);
+        c.insets = new Insets(50,150,0,0);
+        pozicija(6,1);
         zavihek2.add(btnShrani2,c);
-        pozicija(6,3);
+        c.insets = new Insets(50,20,0,0);
+        pozicija(6,2);
         zavihek2.add(btnPreklici2,c);
         
         // Alt + V odpre zavihtek "Velikost"
@@ -237,7 +254,7 @@ public class Nastavi extends JFrame {
         mreza();
         
         // JComboBox in JLabel za nacin igre
-        JLabel lblNacin = new JLabel("Nacin:");
+        JLabel lblNacin = new JLabel("Nacin igre:");
         String[] nacini = {"Clovek proti cloveku", "Clovek proti racunalniku", "Racunalnik proti cloveku", "Racunalnik proti racunalniku"};
         @SuppressWarnings({ "rawtypes", "unchecked" })
 		JComboBox cmbNacin = new JComboBox(nacini);
@@ -258,6 +275,7 @@ public class Nastavi extends JFrame {
         
         // JButton nova igra
         JButton btnNovaIgra = new JButton("Nova igra");
+        btnNovaIgra.setBackground(new Color(30, 150, 220));
         btnNovaIgra.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if (rbtnLahka.isSelected()) Vodja.globinaMinimax = 1;
@@ -279,24 +297,35 @@ public class Nastavi extends JFrame {
         	}
         });
         
+        //JButton preklici
+        JButton btnPreklici3 = new JButton("Preklici");
+        btnPreklici3.addActionListener(preklici());
+        
         // dodajanje komponent v mrezo
         pozicija(0,0);
         zavihek3.add(lblNacin,c);
         c.gridwidth = 2;
-        pozicija(0,1);
+        c.insets = new Insets(10,0,0,0);
+        pozicija(1,2);
         zavihek3.add(cmbNacin,c);
-        c.gridwidth = 4;
+        c.gridwidth = 3;
+        c.insets = new Insets(40,0,10,0);
         pozicija(2,0);
         zavihek3.add(lblTezavnost,c);
         c.gridwidth = 1;
+        c.insets = new Insets(0,40,0,0);
         pozicija(3,1);
         zavihek3.add(rbtnLahka,c);
         pozicija(3,2);
+        c.insets = new Insets(0,40,0,0);
         zavihek3.add(rbtnSrednja,c);
         pozicija(3,3);
         zavihek3.add(rbtnTezka,c);
-        pozicija(4,4);
+        c.insets = new Insets(50,20,0,0);
+        pozicija(4,3);
         zavihek3.add(btnNovaIgra,c);
+        pozicija(4,4);
+        zavihek3.add(btnPreklici3,c);
         
         
         
@@ -328,6 +357,7 @@ public class Nastavi extends JFrame {
 			sldPolmerTock.setValue((int) platno.polmer);
 			sldDebelinaPovezave.setValue((int) platno.debelinaPovezave);
 			sldVisinaPlatna.setValue((int) platno.visinaZaslona);
+			platnoZavihki.setSelectedComponent(zavihek1);
 		}
 		catch (Exception NullPointerException) {};
 	}

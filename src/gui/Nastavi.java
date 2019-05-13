@@ -25,6 +25,7 @@ public class Nastavi extends JFrame {
 	
 	JTabbedPane platnoZavihki;
 	JComponent zavihek1;
+	JLabel lblBarvaB, lblBarvaA;
 	
 	public Nastavi(Vodja vodja, Platno platno) {
 		super();
@@ -61,7 +62,7 @@ public class Nastavi extends JFrame {
         // JButton in JLabel za barvo igralca A
         JLabel lblBarvaIgralcaA = new JLabel("Barva igralca A:");
         JButton btnBarvaIgralcaA = new JButton("Nastavi barvo...");
-        JLabel lblBarvaA = new JLabel("    ");
+        lblBarvaA = new JLabel("    ");
         lblBarvaA.setOpaque(true);
         lblBarvaA.setBackground(platno.barvaIgralecA);
         btnBarvaIgralcaA.addActionListener(new ActionListener() {
@@ -74,7 +75,7 @@ public class Nastavi extends JFrame {
         // JButton in JLabel za barvo igralca B
         JLabel lblBarvaIgralcaB = new JLabel("Barva igralca B:");
         JButton btnBarvaIgralcaB = new JButton("Nastavi barvo...");
-        JLabel lblBarvaB = new JLabel("    ");
+        lblBarvaB = new JLabel("    ");
         lblBarvaB.setOpaque(true);
         lblBarvaB.setBackground(platno.barvaIgralecB);
         btnBarvaIgralcaB.addActionListener(new ActionListener() {
@@ -358,6 +359,10 @@ public class Nastavi extends JFrame {
 			sldDebelinaPovezave.setValue((int) platno.debelinaPovezave);
 			sldVisinaPlatna.setValue((int) platno.visinaZaslona);
 			platnoZavihki.setSelectedComponent(zavihek1);
+			barvaIgralcaA = platno.barvaIgralecA;
+			barvaIgralcaB = platno.barvaIgralecB;
+    		lblBarvaB.setBackground(barvaIgralcaB);
+    		lblBarvaA.setBackground(barvaIgralcaA);
 		}
 		catch (Exception NullPointerException) {};
 	}

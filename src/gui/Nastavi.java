@@ -421,6 +421,10 @@ public class Nastavi extends JFrame {
         		platno.barvaMoznihTock = Color.YELLOW;
 				platno.barvaIgralecA = Color.RED;
 				platno.barvaIgralecB = Color.BLACK;
+				barvaIgralcaA = platno.barvaIgralecA;
+				barvaIgralcaB = platno.barvaIgralecB;
+	    		lblBarvaB.setBackground(barvaIgralcaB);
+	    		lblBarvaA.setBackground(barvaIgralcaA);
 				platno.polmer = 10;
 				platno.debelinaPovezave = 4;
 				platno.visinaZaslona = visinaZaslona;
